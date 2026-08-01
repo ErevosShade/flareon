@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  /* Charcoal body — the material itself */
+  --color-ink: #0a0a0b;
+  --color-ink-2: #101012;
+  --color-ink-3: #17171a;
+  --color-ink-4: #1f1f23;
+  --color-line: #2b2b31;
+
+  /* Ash — the clean white ash the product leaves behind */
+  --color-ash: #ece7de;
+  --color-ash-2: #c6bfb2;
+  --color-ash-3: #8e8779;
+
+  /* Ember — live coal */
+  --color-ember: #ff5a1f;
+  --color-ember-2: #e03e0c;
+  --color-glow: #ffb347;
+
+  /* Husk — raw coconut shell */
+  --color-husk: #8a5a34;
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-ash);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-ember);
+    color: #fff;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Page gutter, used everywhere */
+  .shell {
+    width: 100%;
+    max-width: 84rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Small monospace eyebrow label — the "spec sheet" voice */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ash-3);
+  }
+
+  /* Hairline card on charcoal */
+  .panel {
+    background: linear-gradient(180deg, #131316 0%, #0e0e10 100%);
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+  }
+
+  .ember-text {
+    background: linear-gradient(92deg, var(--color-glow), var(--color-ember));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Coal-bed texture: faint diagonal grain over dark sections */
+.grain {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+}
+
+/* Slow ember breathing behind the hero */
+@keyframes emberPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+.ember-pulse {
+  animation: emberPulse 7s ease-in-out infinite;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: riseIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ember-pulse,
+  .rise {
+    animation: none;
+  }
+}
