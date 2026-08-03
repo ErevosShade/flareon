@@ -11,6 +11,12 @@ const shapeImage = {
   honeycomb: media.shapes.round,
 };
 
+// The cube stack is taller than a 4:3 crop allows, so it scales to fit rather
+// than losing the top row.
+const shapeFit = {
+  cube: "object-contain bg-ink-3",
+};
+
 // One card per pressed shape, with what actually sets it apart.
 function ShapeCard({ shape }) {
   const image = shapeImage[shape.id];
@@ -21,7 +27,9 @@ function ShapeCard({ shape }) {
         alt={image.alt}
         loading="lazy"
         decoding="async"
-        className="aspect-4/3 w-full border-b border-line object-cover transition-transform duration-500 group-hover:scale-105"
+        className={`aspect-4/3 w-full border-b border-line transition-transform duration-500 group-hover:scale-105 ${
+          shapeFit[shape.id] ?? "object-cover"
+        }`}
       />
       <div className="flex flex-1 flex-col p-6">
         <h3 className="text-[19px] font-bold text-ash">{shape.name}</h3>
@@ -83,7 +91,7 @@ function Briquettes() {
             {p.blurb}
           </p>
           <ul className="mt-8 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
-            {p.points.map((pt) => (
+            {(p.pointsFull ?? p.points).map((pt) => (
               <li key={pt} className="flex gap-2.5 text-[15px] text-ash-2">
                 <Coal className="mt-2" />
                 <span>{pt}</span>
@@ -174,12 +182,19 @@ function ActivatedCarbon() {
             {p.cta} — coming soon
           </Button>
         </div>
-        <Figure
-          image={media.material.carbonSack}
-          ratio="wide"
-          label="Coconut shell activated carbon"
-          note="High adsorption, high purity — milled and packed at Palladam, Tamil Nadu, India."
-        />
+        {/* No product photography until the line is running. */}
+        <div className="panel grid aspect-16/10 place-items-center p-8 text-center">
+          <div>
+            <span className="ember-pulse pointer-events-none absolute inset-0 -z-10" />
+            <p className="font-display text-4xl font-black tracking-tight text-ash md:text-5xl">
+              Coming <span className="ember-text">Soon</span>
+            </p>
+            <p className="mx-auto mt-4 max-w-sm text-[15px] leading-relaxed text-ash-3">
+              Grades, iodine values and mesh sizes are being finalised. Register
+              your requirement and we'll come to you first.
+            </p>
+          </div>
+        </div>
       </div>
     </Section>
   );

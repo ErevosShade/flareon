@@ -2,8 +2,8 @@ import {
   pillars,
   processSteps,
   carbonProcessSteps,
+  sustainability,
   company,
-  metrics,
 } from "../data/site";
 import { Section, SectionHead, Button, Eyebrow, Coal } from "../components/ui";
 import PageHero from "../components/PageHero";
@@ -54,26 +54,68 @@ export default function Company() {
       </Section>
 
       <Section tone="ink">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
-          <div className="grid grid-cols-2 gap-4">
-            <Figure image={media.material.rawSacks} ratio="photo" className="col-span-2" />
-            <Figure image={media.material.powder} ratio="square" />
-            <Figure image={media.material.carbonSack} ratio="square" />
+        <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.25fr]">
+          <div className="space-y-4 lg:sticky lg:top-28">
+            <Figure image={media.material.rawSacks} ratio="photo" />
+            <div className="grid grid-cols-2 gap-4">
+              <Figure image={media.material.powder} ratio="square" />
+              <Figure image={media.material.carbonSack} ratio="square" />
+            </div>
           </div>
+
           <div>
             <Eyebrow className="mb-3">One shell, two product lines</Eyebrow>
             <h2 className="text-3xl font-extrabold leading-tight text-ash md:text-4xl">
               The same carbon feeds the briquette press and the activated carbon
               plant
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-ash-2">
-              Shell charcoal arrives graded, then splits: chips and fines go to
-              milling for activated carbon powder, while the high fixed-carbon
-              fraction is bound with potato starch and pressed into barbecue
-              briquettes. Owning both lines is why we can hold the grade instead
-              of accepting whatever a trader delivers.
-            </p>
-            <Button to="/products" variant="outline" className="mt-7">
+
+            <div className="mt-8 space-y-8">
+              <div>
+                <h3 className="font-display text-xl font-bold text-ash">
+                  Charcoal briquettes
+                </h3>
+                <p className="mt-3 text-[16px] leading-relaxed text-ash-2">
+                  Coconut shell is one of the few agricultural residues dense
+                  enough to carbonise into a genuinely high fixed-carbon fuel. We
+                  take the coarse fraction of our own shell char, bind it with
+                  food-grade potato starch and press it under high hydraulic
+                  pressure into hexagonal, pillow, cube and honeycomb shapes. The
+                  density is the point: a tighter particle structure burns slower
+                  and hotter than lump wood charcoal, holds cooking temperature
+                  for hours rather than minutes, and leaves a small volume of
+                  clean white ash instead of a grate full of grit. Because there
+                  are no nitrate accelerants anywhere in the recipe, nothing
+                  chemical transfers to the food — which is what makes the
+                  product acceptable to commercial barbecue kitchens, shisha
+                  lounges and supermarket private-label buyers who have to answer
+                  for what they sell.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-display text-xl font-bold text-ash">
+                  Activated carbon
+                </h3>
+                <p className="mt-3 text-[16px] leading-relaxed text-ash-2">
+                  The finer fraction goes the other way. Steam activation at high
+                  temperature blows open the internal pore structure of the same
+                  shell char, turning a simple fuel into an adsorbent with an
+                  enormous internal surface area — the material that pulls
+                  chlorine, organics, colour and odour out of water, strips
+                  solvents from air streams, and recovers gold from leach
+                  solutions. Coconut shell is the preferred feedstock for it
+                  worldwide precisely because its pores are predominantly
+                  micropores, which is what makes it effective at low
+                  concentrations where coal-based carbons underperform. Running
+                  both lines off one intake is what lets us hold a grade: we
+                  choose which fraction goes where, instead of accepting whatever
+                  a trader delivers that week.
+                </p>
+              </div>
+            </div>
+
+            <Button to="/products" variant="outline" className="mt-8">
               See the product range
             </Button>
           </div>
@@ -99,13 +141,21 @@ export default function Company() {
           <ol className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4">
             {processSteps.map((s, i) => (
               <li key={s.n} className="relative bg-ink-2">
-                <img
-                  src={processImages[i].src}
-                  alt={processImages[i].alt}
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-4/3 w-full border-b border-line object-cover"
-                />
+                {processImages[i] ? (
+                  <img
+                    src={processImages[i].src}
+                    alt={processImages[i].alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-4/3 w-full border-b border-line object-cover"
+                  />
+                ) : (
+                  <div className="grid aspect-4/3 w-full place-items-center border-b border-line bg-ink-3">
+                    <span className="font-mono text-[12px] tracking-[0.2em] text-ash-3 uppercase">
+                      Photo coming soon
+                    </span>
+                  </div>
+                )}
                 <div className="p-7">
                   <span className="font-mono text-[13px] text-ember">{s.n}</span>
                   <h3 className="mt-3 text-[17px] font-bold leading-snug text-ash">
@@ -164,55 +214,46 @@ export default function Company() {
           <div>
             <Eyebrow className="mb-3 !text-[#8fc7a3]">Sustainability impact</Eyebrow>
             <h2 className="text-3xl font-extrabold leading-tight text-[#eaf5ee] md:text-4xl">
-              Saving thousands of trees, every single year
+              {sustainability.headline}
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-[#c2dccb]">
-              By converting agricultural coconut shell waste into high-heat
-              briquettes, Flareon displaces the deforestation that traditional
-              wood charcoal production depends on. Our windmills generate 3.5 MW
-              against a 2.8 MW plant draw — the surplus is what makes this export
-              line carbon-negative.
+            <p className="mt-5 text-[16px] leading-relaxed text-[#c2dccb]">
+              {sustainability.body}
             </p>
-            <div className="mt-8 grid grid-cols-2 gap-4">
-              {metrics.map((m) => (
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {sustainability.stats.map((s) => (
                 <div
-                  key={m.key}
+                  key={s.value}
                   className="panel-hover rounded-xl border border-[#2d6648]/70 bg-[#0c1f16] p-5"
                 >
                   <p className="font-display text-2xl font-extrabold text-[#eaf5ee]">
-                    {m.value}
+                    {s.value}
                   </p>
-                  <p className="mt-1 text-[12px] text-[#8fc7a3]">{m.label}</p>
+                  <p className="mt-1 text-[13px] leading-snug text-[#8fc7a3]">
+                    {s.label}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="space-y-5">
-            <Figure
-              image={media.logistics.warehouseFlareon}
-              ratio="wide"
-              label="Palladam plant & UV drying yard"
-              note="55,000 sq. ft of UV-covered solar drying, then poly-lined sacks against sea humidity."
+
+          <figure className="overflow-hidden rounded-xl border border-[#2d6648]/70 bg-[#0c1f16]">
+            <img
+              src={media.nature.grove.src}
+              alt={media.nature.grove.alt}
+              loading="lazy"
+              decoding="async"
+              className="aspect-4/3 w-full object-cover"
             />
-            <div className="grid grid-cols-3 gap-3">
-              <Figure image={media.plant.sorting} ratio="square" />
-              <Figure image={media.plant.trayLeveling} ratio="square" />
-              <Figure image={media.plant.conveyorDrop} ratio="square" />
-            </div>
-            <div className="panel-hover rounded-xl border border-[#2d6648]/70 bg-[#0c1f16] p-7">
-              <Eyebrow className="!text-[#8fc7a3]">Facility</Eyebrow>
-              <h3 className="mt-2 text-xl font-bold text-[#eaf5ee]">
-                {company.plant}
-              </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-[#c2dccb]">
-                Multi-acre industrial grounds with direct road access to{" "}
-                {company.ports}.
+            <figcaption className="border-t border-[#2d6648]/70 px-6 py-4">
+              <p className="font-mono text-[11px] tracking-[0.16em] text-[#8fc7a3] uppercase">
+                Renewable feedstock
               </p>
-              <p className="mt-4 font-mono text-[12px] text-[#8fc7a3]">
-                {company.address}
+              <p className="mt-1 text-[14px] text-[#c2dccb]">
+                Shell waste from working coconut plantations — a by-product
+                stream, never a felled tree.
               </p>
-            </div>
-          </div>
+            </figcaption>
+          </figure>
         </div>
         </div>
       </section>

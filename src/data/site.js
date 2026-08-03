@@ -14,7 +14,7 @@ export const company = {
   whatsappHref: "https://wa.me/919944133441",
   emails: ["enquiry@flareonbbq.com", "care@flareonbbq.com"],
   managingPartner: {
-    name: "Gowtham",
+    name: "M Gowtham",
     role: "Managing Partner",
     email: "gowtham@flareonbbq.com",
   },
@@ -89,10 +89,18 @@ export const products = [
     name: "Coconut Shell Charcoal Briquettes for BBQ",
     blurb:
       "Hexagonal, pillow, cube and honeycomb shapes engineered for commercial barbecue kitchens, shisha lounges and retail supermarket shelves.",
+    // Condensed to four lines for the homepage card; the full nine-point list
+    // lives on the Products page.
     points: [
+      "4+ hours burning time & ready in 20 minutes",
+      "Minimal ash residue & uniform, high heat output",
+      "Odourless, smokeless & all-natural composition",
+      "High density for a longer burn & easy handling",
+    ],
+    pointsFull: [
       "4+ hours burning time",
       "Minimal ash residue",
-      "Odorless & smokeless",
+      "Odourless & smokeless",
       "Heats up in 20 minutes",
       "All-natural composition",
       "High density for longer burn time",
@@ -310,6 +318,19 @@ export const activeDestinations = [
   { flag: "🇸🇦", name: "Saudi Arabia" },
   { flag: "🇦🇪", name: "UAE" },
 ];
+
+// Company page — sustainability band. Deliberately limited to sustainability
+// metrics; burn duration and binder claims belong on Products/Specs.
+export const sustainability = {
+  headline: "Carbon-negative by design",
+  body: "Every tonne of Flareon coconut shell charcoal briquettes displaces wood charcoal that would otherwise come from felled trees. Production runs on captive windmill power — 3.5 MW generated against a 2.8 MW plant draw — so the surplus alone makes this export line carbon-negative before a single briquette leaves the yard.",
+  stats: [
+    { value: "5,000 MT", label: "Annual export output" },
+    { value: "3.5 MW", label: "Captive windmill power generated" },
+    { value: "0.7 MW", label: "Surplus power banked / exported (3.5 MW − 2.8 MW draw)" },
+    { value: "100%", label: "Agricultural waste feedstock, zero deforestation" },
+  ],
+};
 
 // Homepage closing section — condensed from the managing partner's own note.
 export const partnerNote = [

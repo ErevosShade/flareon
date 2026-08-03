@@ -158,7 +158,7 @@ function BriquetteForm() {
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   return (
-    <div className="panel p-7 md:p-9" id="briquette-form">
+    <div className="panel flex h-full flex-col p-7 md:p-9" id="briquette-form">
       <Eyebrow className="mb-2">Briquettes</Eyebrow>
       <h2 className="text-2xl font-extrabold text-ash">
         Charcoal briquette FOB / CIF inquiry
@@ -301,7 +301,7 @@ function CarbonForm() {
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   return (
-    <div className="panel p-7 md:p-9" id="carbon-form">
+    <div className="panel flex h-full flex-col p-7 md:p-9" id="carbon-form">
       <div className="flex flex-wrap items-center gap-3">
         <Eyebrow>Activated carbon</Eyebrow>
         <span className="rounded-full border border-ember/40 bg-ember/10 px-2.5 py-0.5 font-mono text-[10px] tracking-widest text-glow uppercase">
@@ -408,14 +408,24 @@ function CarbonForm() {
 function SalesDesk() {
   const { managingPartner } = company;
   return (
-    <Section tone="raised">
-      <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
+    <section className="relative overflow-hidden border-y border-line py-20 md:py-28">
+      <img
+        src={media.fire.hero.src}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 size-full object-cover opacity-25"
+      />
+      <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/88 to-ink" />
+
+      <div className="shell relative grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
         <div>
           <Eyebrow className="mb-3">Direct export sales desk</Eyebrow>
-          <h2 className="text-3xl font-extrabold leading-tight text-ash md:text-4xl">
+          <h2 className="text-4xl font-extrabold leading-tight text-ash md:text-5xl">
             Talk to a person, not a ticket queue
           </h2>
-          <p className="mt-5 text-[15px] leading-relaxed text-ash-2">
+          <p className="mt-6 text-[17px] leading-relaxed text-ash-2">
             {company.name} — {company.address}
           </p>
         </div>
@@ -425,38 +435,38 @@ function SalesDesk() {
             href={company.whatsappHref}
             target="_blank"
             rel="noreferrer noopener"
-            className="panel panel-hover p-6"
+            className="panel panel-hover p-7"
           >
             <Eyebrow>WhatsApp</Eyebrow>
-            <p className="mt-2 text-[17px] font-semibold text-ash">
+            <p className="mt-3 text-[20px] font-semibold text-ash">
               {company.whatsapp}
             </p>
-            <p className="mt-2 text-[13px] text-ash-3">Fastest reply</p>
+            <p className="mt-2 text-[15px] text-ash-3">Fastest reply</p>
           </a>
 
-          <a href={`mailto:${company.emails[0]}`} className="panel panel-hover p-6">
+          <a href={`mailto:${company.emails[0]}`} className="panel panel-hover p-7">
             <Eyebrow>Enquiries</Eyebrow>
-            <p className="mt-2 break-all text-[17px] font-semibold text-ash">
+            <p className="mt-3 break-all text-[20px] font-semibold text-ash">
               {company.emails[0]}
             </p>
-            <p className="mt-2 text-[13px] text-ash-3">General export desk</p>
+            <p className="mt-2 text-[15px] text-ash-3">General export desk</p>
           </a>
 
           <a
             href={`mailto:${managingPartner.email}`}
-            className="panel panel-hover p-6 sm:col-span-2"
+            className="panel panel-hover p-7 sm:col-span-2"
           >
             <Eyebrow>{managingPartner.role}</Eyebrow>
-            <p className="mt-2 break-all text-[17px] font-semibold text-ash">
+            <p className="mt-3 break-all text-[20px] font-semibold text-ash">
               {managingPartner.email}
             </p>
-            <p className="mt-2 text-[13px] text-ash-3">
+            <p className="mt-2 text-[15px] text-ash-3">
               {managingPartner.name} — for partnerships and large contracts
             </p>
           </a>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
@@ -475,8 +485,9 @@ export default function ExportQuote() {
         image={media.logistics.port}
       />
 
+      {/* items-stretch + h-full keeps both cards the same length */}
       <Section tone="ink" id="forms">
-        <div className="grid items-start gap-8 lg:grid-cols-2">
+        <div className="grid items-stretch gap-8 lg:grid-cols-2">
           <BriquetteForm />
           <CarbonForm />
         </div>
@@ -490,13 +501,13 @@ export default function ExportQuote() {
           title="Containers already moving"
           align="center"
         />
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <div className="mt-12 flex flex-wrap justify-center gap-4">
           {activeDestinations.map((d) => (
             <span
               key={d.name}
-              className="rounded-full border border-line bg-ink-2 px-5 py-3 text-sm text-ash-2"
+              className="rounded-full border border-line bg-ink-2 px-7 py-4 text-lg text-ash-2"
             >
-              <span aria-hidden className="me-2">
+              <span aria-hidden className="me-2.5 text-xl">
                 {d.flag}
               </span>
               {d.name}

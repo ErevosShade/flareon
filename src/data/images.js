@@ -132,7 +132,21 @@ export const media = {
   },
 
   people: {
-    lead: img("leadership-portrait.jpg", "Gowtham, Managing Partner, Flareon Briquettes"),
+    lead: img("leadership-portrait.jpg", "M Gowtham, Managing Partner, Flareon Briquettes"),
+  },
+
+  // Sustainability + proof imagery
+  nature: {
+    grove: img(
+      "coconut-grove.jpg",
+      "Coconut plantation — the renewable shell waste stream our briquettes are made from"
+    ),
+  },
+  proof: {
+    certificates: img(
+      "certificates-spread.jpg",
+      "Flareon quality certificates and third-party test reports laid out"
+    ),
   },
 };
 
@@ -148,38 +162,42 @@ export const plantStrip = [
 
 // Gallery page — the documentary set (plant, material, packing, product in use).
 // Studio shape shots and the carbon sack live on the Products page instead.
+// `ratio` matches how the photo was actually shot — portrait frames stay
+// portrait instead of being cropped square. Order is deliberately interleaved so
+// no two shots of the same subject (fire, warehouse, conveyor) sit side by side.
 export const gallery = [
-  { ...media.logistics.yardLoading, caption: "Jumbo bags of shell charcoal moved into the yard" },
-  { ...media.logistics.warehouseFlareon, caption: "Branded 25 kg sacks stacked in the covered warehouse" },
-  { ...media.plant.machine, caption: "The hydraulic briquette press mid-run" },
-  { ...media.plant.machineTeam, caption: "Press line crew during a production shift" },
-  { ...media.plant.sorting, caption: "Fresh briquettes graded into drying crates" },
-  { ...media.plant.conveyorCrates, caption: "Carbon conveyor feeding the press" },
-  { ...media.plant.dryingTray, caption: "Pillow briquettes laid out to dry" },
-  { ...media.plant.trayLeveling, caption: "Levelling a tray before it goes to the yard" },
-  { ...media.plant.screening, caption: "Watching the screening conveyor for undersize" },
-  { ...media.plant.conveyorDrop, caption: "Dried briquettes dropping to the transfer belt" },
-  { ...media.plant.conveyorNight, caption: "The screening line running late in the shift" },
-  { ...media.plant.screeningCheck, caption: "Quality check on the screening bed" },
-  { ...media.plant.bagging, caption: "Filling a 25 kg sack at the weighing hopper" },
-  { ...media.logistics.retailBags, caption: "Printed retail bags stacked for export" },
-  { ...media.logistics.sackWall, caption: "A wall of packed sacks awaiting a container" },
-  { ...media.logistics.warehouseAisle, caption: "Warehouse aisle on the despatch side" },
-  { ...media.material.rawSacks, caption: "Shell charcoal chips and milled carbon, side by side" },
-  { ...media.material.powder, caption: "Milled coconut shell carbon, close up" },
-  { ...media.fire.shisha, caption: "Cubes glowing on a lighting grill" },
-  { ...media.fire.cubesLit, caption: "Fully lit cubes on a foiled bowl" },
-  { ...media.fire.coals, caption: "Briquettes holding heat at full burn" },
-  { ...media.fire.hexagon, caption: "Flames rising off hexagonal briquettes" },
-  { ...media.fire.hero, caption: "An even ember bed — four hours of steady heat" },
+  { ...media.logistics.yardLoading, ratio: "wide", caption: "Jumbo bags of shell charcoal moved into the yard" },
+  { ...media.fire.hexagon, ratio: "square", caption: "Flames rising off hexagonal briquettes" },
+  { ...media.plant.screening, ratio: "tall", caption: "Watching the screening conveyor for undersize" },
+  { ...media.logistics.warehouseFlareon, ratio: "wide", caption: "Branded 25 kg sacks stacked in the covered warehouse" },
+  { ...media.material.powder, ratio: "wide", caption: "Milled coconut shell carbon, close up" },
+  { ...media.plant.machine, ratio: "wide", caption: "The hydraulic briquette press mid-run" },
+  { ...media.fire.shisha, ratio: "square", caption: "Cubes glowing on a lighting grill" },
+  { ...media.plant.bagging, ratio: "tall", caption: "Filling a 25 kg sack at the weighing hopper" },
+  { ...media.logistics.retailBags, ratio: "wide", caption: "Printed retail bags stacked for export" },
+  { ...media.plant.dryingTray, ratio: "wide", caption: "Pillow briquettes laid out to dry" },
+  { ...media.material.rawSacks, ratio: "wide", caption: "Shell charcoal chips and milled carbon, side by side" },
+  { ...media.plant.conveyorDrop, ratio: "tall", caption: "Dried briquettes dropping to the transfer belt" },
+  { ...media.fire.hero, ratio: "cinema", caption: "An even ember bed — four hours of steady heat" },
+  { ...media.plant.sorting, ratio: "wide", caption: "Fresh briquettes graded into drying crates" },
+  { ...media.logistics.warehouseAisle, ratio: "wide", caption: "Warehouse aisle on the despatch side" },
+  { ...media.plant.conveyorNight, ratio: "tall", caption: "The screening line running late in the shift" },
+  { ...media.plant.machineTeam, ratio: "wide", caption: "Press line crew during a production shift" },
+  { ...media.fire.cubesLit, ratio: "square", caption: "Fully lit cubes on a foiled bowl" },
+  { ...media.plant.trayLeveling, ratio: "wide", caption: "Levelling a tray before it goes to the yard" },
+  { ...media.logistics.sackWall, ratio: "wide", caption: "A wall of packed sacks awaiting a container" },
+  { ...media.plant.screeningCheck, ratio: "tall", caption: "Quality check on the screening bed" },
+  { ...media.plant.conveyorCrates, ratio: "wide", caption: "Carbon conveyor feeding the press" },
+  { ...media.fire.coals, ratio: "square", caption: "Briquettes holding heat at full burn" },
 ];
 
-// One photo per manufacturing stage on the Company page.
+// One photo per manufacturing stage on the Company page. `null` means we have
+// no representative shot yet — the card shows a "coming soon" plate instead.
 export const processImages = [
-  media.material.rawSacks,
+  null,
   media.material.powder,
   media.plant.machineTeam,
-  media.plant.bagging,
+  null,
 ];
 
 // One photo per activated-carbon stage on the Company page.

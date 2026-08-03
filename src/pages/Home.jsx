@@ -26,9 +26,10 @@ function Hero() {
         alt={media.fire.hero.alt}
         fetchPriority="high"
         decoding="async"
-        className="absolute inset-0 size-full object-cover object-center opacity-45"
+        className="absolute inset-0 size-full object-cover object-center opacity-30"
       />
-      <div className="absolute inset-0 bg-linear-to-b from-ink/92 via-ink/75 to-ink" />
+      <div className="absolute inset-0 bg-ink/45" />
+      <div className="absolute inset-0 bg-linear-to-b from-ink/95 via-ink/85 to-ink" />
       <div className="pointer-events-none absolute inset-x-0 -top-40 h-[38rem] bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,90,31,0.16),transparent_70%)]" />
       <div className="grain absolute inset-0" />
 
@@ -216,7 +217,7 @@ function Grades() {
 }
 
 const productCardImage = {
-  briquettes: media.shapes.cube,
+  briquettes: media.fire.hexagon,
   "activated-carbon": media.material.carbonSack,
 };
 
@@ -251,8 +252,8 @@ function ProductPeek() {
                   alt={productCardImage[p.id].alt}
                   loading="lazy"
                   decoding="async"
-                  className={`aspect-16/10 w-full border-b border-line object-cover ${
-                    p.available ? "" : "opacity-55"
+                  className={`aspect-21/9 w-full border-b border-line object-cover ${
+                    p.available ? "" : "object-contain bg-ink-3 p-6 opacity-80"
                   }`}
                 />
                 {!p.available && (
@@ -292,22 +293,26 @@ function ProductPeek() {
   );
 }
 
+// Runs edge-to-edge on desktop — the table needs the width more than the
+// section needs a gutter.
 function Benchmark() {
   return (
-    <Section tone="raised">
-      <SectionHead
-        eyebrow="Bureau Veritas — third-party tested"
-        title="Against leading wood charcoal"
-        sub="Not our marketing numbers. The comparative combustion study, reproduced in full and downloadable as the original PDF."
-      />
-      <div className="mt-10 overflow-x-auto">
-        <table className="w-full min-w-[36rem] border-collapse text-left text-sm">
+    <section className="bg-ink-2 grain py-20 md:py-28">
+      <div className="shell">
+        <SectionHead
+          eyebrow="Bureau Veritas — third-party tested"
+          title="Against leading wood charcoal"
+          sub="Not our marketing numbers. The comparative combustion study, reproduced in full and downloadable as the original PDF."
+        />
+      </div>
+      <div className="mt-10 overflow-x-auto px-5 md:px-8">
+        <table className="w-full min-w-[36rem] border-collapse text-left text-base">
           <thead>
             <tr>
               {benchmark.columns.map((c, i) => (
                 <th
                   key={c}
-                  className={`border-b border-line pb-3 pr-4 font-mono text-[11px] tracking-widest uppercase ${
+                  className={`border-b border-line pb-4 pr-6 font-mono text-[13px] tracking-widest uppercase ${
                     i === 1 ? "text-glow" : "text-ash-3"
                   }`}
                 >
@@ -319,65 +324,76 @@ function Benchmark() {
           <tbody>
             {benchmark.rows.map((r) => (
               <tr key={r[0]} className="border-b border-line/70">
-                <td className="py-3.5 pr-4 text-ash-2">{r[0]}</td>
-                <td className="py-3.5 pr-4 font-mono font-medium text-ash">
-                  <span className="rounded bg-ember/10 px-2 py-1">{r[1]}</span>
+                <td className="py-4 pr-6 text-[15px] text-ash-2">{r[0]}</td>
+                <td className="py-4 pr-6 font-mono text-[15px] font-medium text-ash">
+                  <span className="rounded bg-ember/10 px-2.5 py-1">{r[1]}</span>
                 </td>
-                <td className="py-3.5 pr-4 font-mono text-ash-3">{r[2]}</td>
-                <td className="py-3.5 pr-4 font-mono text-ash-3">{r[3]}</td>
+                <td className="py-4 pr-6 font-mono text-[15px] text-ash-3">{r[2]}</td>
+                <td className="py-4 pr-6 font-mono text-[15px] text-ash-3">{r[3]}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </Section>
+    </section>
   );
 }
 
 function TrustWall() {
   return (
-    <Section tone="ink">
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-center">
-        <div>
-          <Eyebrow className="mb-3">Documented, not claimed</Eyebrow>
-          <h2 className="text-3xl font-extrabold text-ash">
-            Every certificate is a download, not a photo
-          </h2>
-          <p className="mt-4 text-[15px] leading-relaxed text-ash-2">
-            The TÜV SÜD ISO 9001:2015 certificate, the Bureau Veritas comparison
-            study, our MSDS and the Coconut Development Board export
-            registration — all four are searchable PDFs you can download before
-            you send a single enquiry.
-          </p>
-          <Button to="/compliance" variant="outline" className="mt-7">
+    // The certificate spread sits behind the whole band; the header row runs
+    // across the top so the four cards form one clean rectangle beneath it.
+    <section className="relative overflow-hidden py-20 md:py-28">
+      <img
+        src={media.proof.certificates.src}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 size-full object-cover opacity-20"
+      />
+      <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/90 to-ink" />
+
+      <div className="shell relative">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_auto] lg:items-end">
+          <div>
+            <Eyebrow className="mb-3">Documented, not claimed</Eyebrow>
+            <h2 className="text-3xl font-extrabold leading-tight text-ash md:text-4xl">
+              Every certificate is a download, not a photo
+            </h2>
+            <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-ash-2">
+              The TÜV SÜD ISO 9001:2015 certificate, the Bureau Veritas
+              comparison study, our MSDS and the Coconut Development Board export
+              registration — all four are searchable PDFs you can download before
+              you send a single enquiry.
+            </p>
+          </div>
+          <Button to="/compliance" variant="outline" size="lg">
             All four documents
           </Button>
-          <Figure
-            image={media.logistics.sackWall}
-            ratio="wide"
-            className="mt-8"
-            label="Audited on site"
-            note="Audits and lab sampling happen on this floor, not from a spec sheet."
-          />
         </div>
-        <div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {certificates.map((c) => (
-              <a
-                key={c.title}
-                href={c.file}
-                download
-                className="panel panel-hover flex flex-col gap-1 p-5"
-              >
-                <Eyebrow>{c.tag}</Eyebrow>
-                <p className="text-[15px] font-semibold text-ash">{c.title}</p>
-                <p className="mt-2 font-mono text-[11px] text-glow">⤓ PDF</p>
-              </a>
-            ))}
-          </div>
+
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          {certificates.map((c) => (
+            <a
+              key={c.title}
+              href={c.file}
+              download
+              className="panel panel-hover flex flex-col p-7"
+            >
+              <Eyebrow>{c.tag}</Eyebrow>
+              <p className="mt-3 text-[19px] font-semibold leading-snug text-ash">
+                {c.title}
+              </p>
+              <p className="mt-4 flex-1 text-[15px] leading-relaxed text-ash-3">
+                {c.body}
+              </p>
+              <p className="mt-6 font-mono text-[13px] text-glow">⤓ Download PDF</p>
+            </a>
+          ))}
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 

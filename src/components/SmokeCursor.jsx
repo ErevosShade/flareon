@@ -18,21 +18,30 @@ export default function SmokeCursor() {
     let last = 0;
     const onMove = (e) => {
       const now = performance.now();
-      if (now - last < 55) return; // throttle so we emit a wisp, not a wall
+      if (now - last < 22) return; // dense enough to read as a plume
       last = now;
 
-      const green = e.target instanceof Element &&
-        e.target.closest('[data-smoke="green"]');
+      const green =
+        e.target instanceof Element && e.target.closest('[data-smoke="green"]');
 
-      const puff = document.createElement("span");
-      puff.className = "smoke-puff";
-      puff.style.left = `${e.clientX}px`;
-      puff.style.top = `${e.clientY}px`;
-      puff.style.background = green
-        ? "radial-gradient(circle, rgba(122,196,140,0.55), rgba(122,196,140,0) 70%)"
-        : "radial-gradient(circle, rgba(198,191,178,0.42), rgba(198,191,178,0) 70%)";
-      document.body.appendChild(puff);
-      puff.addEventListener("animationend", () => puff.remove());
+      // Three puffs per emission, scattered and staggered, so the trail has
+      // volume instead of reading as a single dot chasing the cursor.
+      for (let i = 0; i < 3; i++) {
+        const puff = document.createElement("span");
+        puff.className = "smoke-puff";
+        puff.style.left = `${e.clientX + (Math.random() - 0.5) * 26}px`;
+        puff.style.top = `${e.clientY + (Math.random() - 0.5) * 26}px`;
+        const scale = 0.8 + Math.random() * 1.1;
+        puff.style.width = `${34 * scale}px`;
+        puff.style.height = `${34 * scale}px`;
+        puff.style.animationDelay = `${i * 55}ms`;
+        puff.style.setProperty("--drift", `${(Math.random() - 0.5) * 70}px`);
+        puff.style.background = green
+          ? "radial-gradient(circle, rgba(122,196,140,0.72), rgba(122,196,140,0) 70%)"
+          : "radial-gradient(circle, rgba(214,208,196,0.62), rgba(214,208,196,0) 70%)";
+        document.body.appendChild(puff);
+        puff.addEventListener("animationend", () => puff.remove());
+      }
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
