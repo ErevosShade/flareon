@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { markets } from "../data/markets";
 import { useMarket } from "../market-context";
 
-// Navbar language / market switcher. English is the only live option today;
-// the other eight target markets are listed as "soon" so the slot is already
-// designed and positioned. Flip `ready: true` in src/data/markets.js to enable.
+// Navbar language / market switcher. Every market in src/data/markets.js is
+// selectable; a locale missing a string falls back to English.
 export default function LanguageMenu() {
   const { market, setMarket } = useMarket();
   const [open, setOpen] = useState(false);

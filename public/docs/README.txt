@@ -1,9 +1,16 @@
-Drop the real PDFs here with these exact filenames — the download links on
-/compliance and the homepage trust wall already point at them:
+Live certificate PDFs served by the download links on /compliance and the
+homepage trust wall. These are the real issued documents.
 
   flareon-iso-9001.pdf        ISO 9001:2015 (TUV SUD South Asia)
-  flareon-sedex-smeta.pdf     Sedex SMETA 2-Pillar audit
-  flareon-bureau-veritas.pdf  Bureau Veritas comparative test report
-  flareon-msds-coa.pdf        MSDS + Certificate of Analysis
+                              Reg. 99 100 20813, valid 2023-03-20 to 2026-03-19
+  flareon-bureau-veritas.pdf  Bureau Veritas Comparison Study
+                              Report (5119)212-0073 Rev. 1
+  flareon-msds.pdf            Material Safety Data Sheet (16 sections)
+  flareon-cdb-rcmc.pdf        Coconut Development Board RCMC
+                              Reg. 19203797, valid to 2029-03-31
 
-Filenames are configured in src/data/site.js -> certificates[].file
+Filenames and the metadata line under each card are configured in
+src/data/site.js -> certificates[].
+
+Not yet supplied: Sedex SMETA audit report. If it arrives, add the file here
+and append an entry to the certificates array.

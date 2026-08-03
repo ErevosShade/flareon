@@ -1,43 +1,55 @@
 import { useState } from "react";
 import {
+  company,
   metrics,
   pillars,
   grades,
   benchmark,
-  shippingLines,
   faqs,
   certificates,
   products,
+  partnerNote,
 } from "../data/site";
 import { useMarket } from "../market-context";
 import { Button, Section, SectionHead, Badge, Coal, Eyebrow } from "../components/ui";
-import CoalBed from "../components/CoalBed";
+import { Figure, PhotoStrip } from "../components/Figure";
+import media, { plantStrip } from "../data/images";
 
+// Full-bleed hero: the ember bed sits behind the type, which now runs the
+// whole width of the shell rather than sharing it with a figure.
 function Hero() {
   const { t } = useMarket();
   return (
     <section className="relative overflow-hidden border-b border-line">
-      {/* kiln glow */}
+      <img
+        src={media.fire.hero.src}
+        alt={media.fire.hero.alt}
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 size-full object-cover object-center opacity-45"
+      />
+      <div className="absolute inset-0 bg-linear-to-b from-ink/92 via-ink/75 to-ink" />
       <div className="pointer-events-none absolute inset-x-0 -top-40 h-[38rem] bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,90,31,0.16),transparent_70%)]" />
       <div className="grain absolute inset-0" />
-      <div className="shell relative grid items-center gap-14 py-16 md:py-24 lg:grid-cols-[1.05fr_1fr]">
+
+      <div className="shell relative py-20 md:py-32">
         <div className="rise">
           <Badge tone="ember">
             <span aria-hidden>🛡</span>
             {t("hero.badge")}
           </Badge>
 
-          <h1 className="mt-6 text-[2.6rem] font-black leading-[0.98] tracking-tight text-ash sm:text-6xl">
+          <h1 className="mt-7 text-[2.7rem] font-black leading-[0.98] tracking-tight text-ash sm:text-6xl lg:text-[4.6rem]">
             {t("hero.h1a")}{" "}
             <span className="ember-text">{t("hero.h1b")}</span>{" "}
             {t("hero.h1c")}
           </h1>
 
-          <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-ash-2 sm:text-base">
+          <p className="mt-7 max-w-3xl text-base leading-relaxed text-ash-2 sm:text-lg">
             {t("hero.sub")}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-9 flex flex-wrap gap-3">
             <Button to="/export-quote" size="lg">
               {t("cta.sample")} →
             </Button>
@@ -45,22 +57,6 @@ function Hero() {
               {t("cta.report")}
             </Button>
           </div>
-
-          <p className="mt-6 flex flex-wrap items-center gap-2 font-mono text-[12px] text-ash-3">
-            <Coal />
-            <span className="text-ash-2">FOB Tuticorin / Chennai</span>
-            <span className="text-line">/</span>
-            <span>MOQ 1 × 20ft FCL</span>
-            <span className="text-line">/</span>
-            <span>T/T &amp; L/C</span>
-          </p>
-        </div>
-
-        <div className="rise" style={{ animationDelay: "120ms" }}>
-          <CoalBed
-            label="Product & factory footage"
-            note="100% natural coconut shell briquettes and the 55,000 sq. ft UV solar drying yard."
-          />
         </div>
       </div>
     </section>
@@ -89,29 +85,75 @@ function Metrics() {
 
 function Pillars() {
   return (
-    <Section tone="ink">
+    <section className="relative overflow-hidden border-y border-line py-20 md:py-28">
+      <img
+        src={media.plant.machineTeam.src}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 size-full object-cover opacity-20"
+      />
+      <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/88 to-ink" />
+      <div className="shell relative">
       <SectionHead
         eyebrow="Why the coal burns differently"
         title="Integrated from shell to shipment"
-        sub="Shell collection, activated carbon plant, briquetting and BBQ grill assembly all sit under one roof in Palladam — which is why we can promise raw material quality instead of hoping for it."
+        sub="Shell collection, activated carbon plant, briquetting and BBQ grill assembly all sit under one roof in Palladam, Tamil Nadu, India — which is why we can promise raw material quality instead of hoping for it."
       />
       <div className="mt-12 grid gap-5 md:grid-cols-3">
         {pillars.map((p, i) => (
           <article
             key={p.title}
-            className="panel group relative overflow-hidden p-7 transition-colors hover:border-ember/40"
+            className="panel panel-hover group relative overflow-hidden p-7"
           >
             <span className="absolute right-5 top-5 font-mono text-[11px] text-line">
               0{i + 1}
             </span>
             <Eyebrow>{p.tag}</Eyebrow>
             <h3 className="mt-3 text-xl font-bold text-ash">{p.title}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-ash-3">{p.body}</p>
+            <p className="mt-3 text-[15px] leading-relaxed text-ash-3">{p.body}</p>
             <p className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] text-glow">
               <Coal /> {p.stat}
             </p>
           </article>
         ))}
+      </div>
+      </div>
+    </section>
+  );
+}
+
+function PlantLook() {
+  return (
+    <Section tone="raised">
+      <SectionHead
+        eyebrow="Inside Palladam"
+        title="The plant, not a stock photo"
+        sub="Shell intake, carbonising, pressing, UV drying and packing — photographed on the line at our own facility in Palladam, Tamil Nadu, India."
+      />
+      <div className="mt-12">
+        <PhotoStrip images={plantStrip} />
+      </div>
+      <div className="mt-5 grid gap-5 lg:grid-cols-3">
+        <Figure
+          image={media.plant.machine}
+          ratio="wide"
+          label="Stage 03 — pressing"
+          note="High-density hydraulic pressing into pillow, hexagon and cube."
+        />
+        <Figure
+          image={media.plant.dryingTray}
+          ratio="wide"
+          label="Stage 04 — UV drying"
+          note="Multi-day slow drying, so the briquette never micro-cracks."
+        />
+        <Figure
+          image={media.logistics.warehouseAisle}
+          ratio="wide"
+          label="Despatch"
+          note="Poly-lined 25 kg sacks staged for container loading."
+        />
       </div>
     </Section>
   );
@@ -129,7 +171,7 @@ function Grades() {
         {grades.map((g) => (
           <div
             key={g.name}
-            className={`panel relative p-7 ${
+            className={`panel panel-hover relative p-7 ${
               g.highlight
                 ? "border-ember/50 shadow-[0_0_60px_-30px_rgba(255,90,31,0.9)]"
                 : ""
@@ -143,7 +185,7 @@ function Grades() {
             <h3 className="font-display text-2xl font-extrabold text-ash">
               {g.name}
             </h3>
-            <p className="mt-1 text-[13px] text-ash-3">{g.use}</p>
+            <p className="mt-1 text-[15px] text-ash-3">{g.use}</p>
             <dl className="mt-6 space-y-0 divide-y divide-line border-y border-line">
               {[
                 ["Ash content", g.ash],
@@ -152,12 +194,12 @@ function Grades() {
                 ["Fixed carbon", g.fixedCarbon],
               ].map(([k, v]) => (
                 <div key={k} className="flex items-baseline justify-between py-3">
-                  <dt className="text-[13px] text-ash-3">{k}</dt>
-                  <dd className="font-mono text-[13px] font-medium text-ash">{v}</dd>
+                  <dt className="text-[15px] text-ash-3">{k}</dt>
+                  <dd className="font-mono text-[15px] font-medium text-ash">{v}</dd>
                 </div>
               ))}
             </dl>
-            <p className="mt-5 text-[13px] text-ash-3">{g.price}</p>
+            <p className="mt-5 text-[15px] text-ash-3">{g.price}</p>
             <Button
               to="/export-quote"
               variant={g.highlight ? "ember" : "outline"}
@@ -173,45 +215,80 @@ function Grades() {
   );
 }
 
+const productCardImage = {
+  briquettes: media.shapes.cube,
+  "activated-carbon": media.material.carbonSack,
+};
+
 function ProductPeek() {
   return (
-    <Section tone="ink">
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-center">
-        <div>
-          <SectionHead
-            eyebrow="What we ship"
-            title="Two products. One job: clean, long heat."
-            sub="Briquettes in pillow, hexagon and cube — plus the fire starter cubes that light them without dragging petroleum smell into the food."
-          />
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button to="/products">View full catalogue</Button>
-            <Button to="/products#oem" variant="outline">
-              OEM & private label
-            </Button>
-          </div>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+    <section className="relative overflow-hidden py-20 md:py-28">
+      <img
+        src={media.material.rawSacks.src}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 size-full object-cover opacity-15"
+      />
+      <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/90 to-ink" />
+      <div className="shell relative">
+        <SectionHead
+          eyebrow="What we ship"
+          title="Two lines, one raw material: the coconut shell."
+          sub="Coconut shell charcoal briquettes for the grill, and activated carbon for filtration. Nothing else — because focus is what makes us the best at both."
+        />
+
+        <div className="mt-12 grid gap-5 lg:grid-cols-2">
           {products.map((p) => (
-            <article key={p.id} className="panel p-6">
-              <Eyebrow>{p.kicker}</Eyebrow>
-              <h3 className="mt-2 text-lg font-bold leading-snug text-ash">
-                {p.name}
-              </h3>
-              <ul className="mt-4 space-y-2">
-                {p.specs.slice(0, 3).map((s) => (
-                  <li key={s.k} className="flex gap-2 text-[13px] text-ash-3">
-                    <Coal className="mt-1.5" />
-                    <span>
-                      <span className="text-ash-2">{s.k}:</span> {s.v}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+            <article
+              key={p.id}
+              className="panel panel-hover flex flex-col overflow-hidden"
+            >
+              <div className="relative">
+                <img
+                  src={productCardImage[p.id].src}
+                  alt={productCardImage[p.id].alt}
+                  loading="lazy"
+                  decoding="async"
+                  className={`aspect-16/10 w-full border-b border-line object-cover ${
+                    p.available ? "" : "opacity-55"
+                  }`}
+                />
+                {!p.available && (
+                  <span className="absolute right-4 top-4 rounded-full border border-ember/40 bg-ink/85 px-3 py-1 font-mono text-[11px] tracking-widest text-glow uppercase backdrop-blur">
+                    Coming soon
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-1 flex-col p-7">
+                <h3 className="text-xl font-bold leading-snug text-ash">
+                  {p.name}
+                </h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-ash-3">
+                  {p.blurb}
+                </p>
+                <ul className="mt-6 space-y-2.5">
+                  {p.points.map((pt) => (
+                    <li key={pt} className="flex gap-2.5 text-[15px] text-ash-2">
+                      <Coal className="mt-2" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </article>
           ))}
         </div>
+
+        <div className="mt-10 flex flex-wrap gap-3">
+          <Button to="/products">View full catalogue</Button>
+          <Button to="/products#oem" variant="outline">
+            OEM & private label
+          </Button>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
@@ -253,12 +330,6 @@ function Benchmark() {
           </tbody>
         </table>
       </div>
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Button to="/compliance">Open compliance hub</Button>
-        <Button href={certificates[2].file} variant="outline" download>
-          ⤓ Download the BV report
-        </Button>
-      </div>
     </Section>
   );
 }
@@ -273,13 +344,21 @@ function TrustWall() {
             Every certificate is a download, not a photo
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-ash-2">
-            ISO 9001:2015, Sedex SMETA, the Bureau Veritas lab report and the
-            MSDS/COA sheet — all four available as searchable PDFs before you
-            send a single enquiry.
+            The TÜV SÜD ISO 9001:2015 certificate, the Bureau Veritas comparison
+            study, our MSDS and the Coconut Development Board export
+            registration — all four are searchable PDFs you can download before
+            you send a single enquiry.
           </p>
           <Button to="/compliance" variant="outline" className="mt-7">
             All four documents
           </Button>
+          <Figure
+            image={media.logistics.sackWall}
+            ratio="wide"
+            className="mt-8"
+            label="Audited on site"
+            note="Audits and lab sampling happen on this floor, not from a spec sheet."
+          />
         </div>
         <div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -288,23 +367,12 @@ function TrustWall() {
                 key={c.title}
                 href={c.file}
                 download
-                className="panel flex flex-col gap-1 p-5 transition-colors hover:border-ember/40"
+                className="panel panel-hover flex flex-col gap-1 p-5"
               >
                 <Eyebrow>{c.tag}</Eyebrow>
                 <p className="text-[15px] font-semibold text-ash">{c.title}</p>
                 <p className="mt-2 font-mono text-[11px] text-glow">⤓ PDF</p>
               </a>
-            ))}
-          </div>
-          <p className="eyebrow mt-10 mb-4">Booked with</p>
-          <div className="flex flex-wrap gap-2">
-            {shippingLines.map((l) => (
-              <span
-                key={l}
-                className="rounded-md border border-line bg-ink-2 px-3 py-2 font-mono text-[12px] text-ash-3"
-              >
-                {l}
-              </span>
             ))}
           </div>
         </div>
@@ -334,18 +402,18 @@ function Faq() {
                 className="flex w-full items-center justify-between gap-6 py-5 text-start"
               >
                 <span
-                  className={`text-[15px] font-semibold ${
+                  className={`text-[19px] font-semibold ${
                     isOpen ? "text-glow" : "text-ash"
                   }`}
                 >
                   {f.q}
                 </span>
-                <span className="font-mono text-lg text-ash-3">
+                <span className="font-mono text-xl text-ash-3">
                   {isOpen ? "−" : "+"}
                 </span>
               </button>
               {isOpen && (
-                <p className="pb-6 pr-10 text-sm leading-relaxed text-ash-2">
+                <p className="pb-6 pr-10 text-[17px] leading-relaxed text-ash-2">
                   {f.a}
                 </p>
               )}
@@ -357,10 +425,64 @@ function Faq() {
   );
 }
 
+function ManagingPartner() {
+  const { managingPartner } = company;
+  return (
+    <Section tone="ink">
+      <div className="grid items-center gap-12 lg:grid-cols-[auto_1fr]">
+        <div className="mx-auto lg:mx-0">
+          <div className="relative">
+            <div className="ember-pulse pointer-events-none absolute -inset-6 rounded-full bg-[radial-gradient(circle,rgba(255,90,31,0.22),transparent_70%)] blur-2xl" />
+            <img
+              src={media.people.lead.src}
+              alt={media.people.lead.alt}
+              loading="lazy"
+              decoding="async"
+              className="relative size-56 rounded-full border border-line object-cover md:size-64"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Eyebrow className="mb-3">Meet the managing partner</Eyebrow>
+          <h2 className="text-3xl font-extrabold leading-tight text-ash md:text-4xl">
+            {managingPartner.name}
+            <span className="ms-3 align-middle font-mono text-[13px] tracking-widest text-ash-3 uppercase">
+              {managingPartner.role}
+            </span>
+          </h2>
+          <div className="mt-6 space-y-4">
+            {partnerNote.map((para) => (
+              <p key={para} className="text-[15px] leading-relaxed text-ash-2">
+                {para}
+              </p>
+            ))}
+          </div>
+          <a
+            href={`mailto:${managingPartner.email}`}
+            className="mt-7 inline-flex items-center gap-2 font-mono text-[14px] text-glow hover:underline"
+          >
+            <Coal /> {managingPartner.email}
+          </a>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function ClosingCTA() {
   const { t } = useMarket();
   return (
     <section className="relative overflow-hidden border-t border-line bg-ink">
+      <img
+        src={media.fire.coals.src}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 size-full object-cover opacity-25"
+      />
+      <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/80 to-ink" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-[radial-gradient(50%_100%_at_50%_100%,rgba(255,90,31,0.2),transparent_75%)]" />
       <div className="shell relative py-20 text-center md:py-28">
         <h2 className="mx-auto max-w-3xl text-3xl font-black leading-tight text-ash md:text-5xl">
@@ -390,11 +512,13 @@ export default function Home() {
       <Hero />
       <Metrics />
       <Pillars />
+      <PlantLook />
       <Grades />
       <ProductPeek />
       <Benchmark />
       <TrustWall />
       <Faq />
+      <ManagingPartner />
       <ClosingCTA />
     </>
   );

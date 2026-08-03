@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import SmokeCursor from "./components/SmokeCursor";
 import Home from "./pages/Home";
 import Company from "./pages/Company";
 import Products from "./pages/Products";
+import Gallery from "./pages/Gallery";
 import Compliance from "./pages/Compliance";
 import ExportQuote from "./pages/ExportQuote";
 
@@ -24,12 +26,14 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
+      <SmokeCursor />
       <Header />
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/compliance" element={<Compliance />} />
           <Route path="/export-quote" element={<ExportQuote />} />
           <Route path="*" element={<Home />} />

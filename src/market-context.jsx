@@ -9,8 +9,8 @@ export function MarketProvider({ children }) {
     () => localStorage.getItem(STORAGE_KEY) || "EN"
   );
 
-  // Only markets flagged `ready` can be selected. Today that is English alone —
-  // anything else falls back so the site can never render half-translated.
+  // Only markets flagged `ready` can be selected; an unknown code falls back to
+  // the default market rather than rendering an empty locale.
   const market = useMemo(() => {
     const found = markets.find((m) => m.code === code);
     return found?.ready ? found : markets[0];

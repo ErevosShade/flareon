@@ -1,6 +1,8 @@
 import { benchmark, certificates } from "../data/site";
 import { Section, SectionHead, Button, Eyebrow } from "../components/ui";
 import PageHero from "../components/PageHero";
+import { Figure } from "../components/Figure";
+import media from "../data/images";
 
 export default function Compliance() {
   return (
@@ -13,7 +15,8 @@ export default function Compliance() {
             <span className="ember-text">Downloadable proof.</span>
           </>
         }
-        sub="Bureau Veritas comparative combustion testing, ISO 9001:2015 by TÜV SÜD South Asia, a Sedex SMETA 2-pillar ethical audit, and the MSDS/COA sheet your customs broker will ask for."
+        sub="Bureau Veritas comparative combustion testing, ISO 9001:2015 by TÜV SÜD South Asia, the MSDS your customs broker will ask for, and our Coconut Development Board export registration."
+        image={media.plant.screeningCheck}
       />
 
       <Section tone="raised">
@@ -52,31 +55,50 @@ export default function Compliance() {
             </tbody>
           </table>
         </div>
-        <p className="mt-4 font-mono text-[11px] text-ash-3">
-          Test basis: ASTM-aligned proximate analysis, third-party sampled at the
-          Palladam plant.
-        </p>
+        <div className="mt-8 grid gap-8 md:grid-cols-[1.6fr_1fr] md:items-center">
+          <div>
+            <p className="font-mono text-[11px] text-ash-3">
+              Test basis: ASTM-aligned proximate analysis, third-party sampled at
+              the Palladam plant.
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-ash-2">
+              Samples are drawn off the screening line on the right — the same
+              run that fills the sacks — so the numbers in the table describe the
+              batch you actually receive, not a lab-prepared specimen.
+            </p>
+          </div>
+          <Figure
+            image={media.plant.conveyorNight}
+            ratio="tall"
+            label="Screening line, Palladam"
+          />
+        </div>
       </Section>
 
       <Section tone="ink">
         <SectionHead
           eyebrow="Downloads"
           title="Official certificates & audit documents"
-          sub="All PDFs, no gated forms. Place the real files in /public/docs to activate these links."
+          sub="All PDFs, no gated forms — the original documents exactly as issued."
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           {certificates.map((c) => (
             <article
               key={c.title}
-              className="panel flex flex-col p-7 transition-colors hover:border-ember/40"
+              className="panel panel-hover flex flex-col p-7"
             >
               <Eyebrow>{c.tag}</Eyebrow>
               <h3 className="mt-3 text-xl font-bold leading-snug text-ash">
                 {c.title}
               </h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-ash-3">
+              <p className="mt-3 text-[15px] leading-relaxed text-ash-3">
                 {c.body}
               </p>
+              {c.meta && (
+                <p className="mt-4 flex-1 font-mono text-[11px] leading-relaxed text-ash-3/80">
+                  {c.meta}
+                </p>
+              )}
               <Button
                 href={c.file}
                 download

@@ -2,21 +2,36 @@
 // Edit here — pages read from this file.
 
 export const company = {
-  name: "Universal Flareon Industries",
+  name: "Flareon Briquettes",
   brand: "FLAREON",
   tagline: "get grillin'",
   address:
-    "3/147 Muthandipalayam, K.Ayyampalayam, Palladam, Tirupur, Tamil Nadu, India-641664",
-  plant: "Palladam Plant, Tirupur, Tamil Nadu",
+    "3/147 Muthandipalayam, K.Ayyampalayam, Palladam, Tamil Nadu, India-641664",
+  // Footer prints this exact line, per the brief.
+  footerAddress:
+    "Universal Flareon Industries — 3/147 Muthandipalayam, Palladam, Tirupur, Tamil Nadu, India-641664",
+  plant: "Palladam Plant, Palladam, Tamil Nadu, India",
   whatsapp: "+91 99441 33441",
   whatsappHref: "https://wa.me/919944133441",
   emails: ["enquiry@flareonbbq.com", "care@flareonbbq.com"],
+  managingPartner: {
+    name: "Gowtham",
+    role: "Managing Partner",
+    email: "gowtham@flareonbbq.com",
+  },
+  socials: [
+    { key: "whatsapp", label: "WhatsApp", href: "https://wa.me/919944133441" },
+    { key: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/" },
+    { key: "instagram", label: "Instagram", href: "https://www.instagram.com/" },
+    { key: "x", label: "X", href: "https://x.com/" },
+    { key: "facebook", label: "Facebook", href: "https://www.facebook.com/" },
+  ],
   ports: "Tuticorin Port (220 km) / Chennai Port (450 km)",
 };
 
 // Section 2 of the homepage wireframe.
 export const metrics = [
-  { key: "capacity", value: "4,000 MT", label: "Annual export output" },
+  { key: "capacity", value: "5,000 MT", label: "Annual export output" },
   { key: "burn", value: "4 Hours", label: "Guaranteed burn duration" },
   { key: "power", value: "3.5 MW", label: "Captive windmill power" },
   { key: "chem", value: "0%", label: "Chemicals — food-grade binder only" },
@@ -27,7 +42,7 @@ export const pillars = [
   {
     tag: "Chemical-free standard",
     title: "100% food-grade binders",
-    body: "Pure maize starch binder only. Zero barium nitrate, zero sodium nitrate, zero chemical accelerants — so nothing carcinogenic comes off the coal and into the food.",
+    body: "Pure potato starch binder only. Zero barium nitrate, zero sodium nitrate, zero chemical accelerants — so nothing carcinogenic comes off the coal and into the food.",
     stat: "0 chemical additives",
   },
   {
@@ -57,7 +72,7 @@ export const processSteps = [
   },
   {
     n: "03",
-    title: "Maize binding & compacting",
+    title: "Potato starch binding & compacting",
     body: "High-density hydraulic pressing into pillow, hexagon and cube.",
   },
   {
@@ -67,36 +82,100 @@ export const processSteps = [
   },
 ];
 
+// The two lines we actually make. Briquettes ship today; activated carbon is
+// announced but not yet orderable, so its CTA stays disabled.
 export const products = [
   {
     id: "briquettes",
-    kicker: "Main product",
-    name: "Coconut Charcoal BBQ Briquettes",
+    name: "Coconut Shell Charcoal Briquettes for BBQ",
     blurb:
-      "Pillow, hexagon and cube configurations engineered for commercial barbecue kitchens and retail supermarket shelves.",
-    specs: [
-      { k: "Burn duration", v: "4 hours (240 min)" },
-      { k: "Ignition speed", v: "Ready in 20 minutes" },
-      { k: "Ash content", v: "< 12% — clean white ash" },
-      { k: "Heat output", v: "High, uniform calorific value" },
+      "Hexagonal, pillow, cube and honeycomb shapes engineered for commercial barbecue kitchens, shisha lounges and retail supermarket shelves.",
+    points: [
+      "4+ hours burning time",
+      "Minimal ash residue",
+      "Odorless & smokeless",
+      "Heats up in 20 minutes",
+      "All-natural composition",
+      "High density for longer burn time",
+      "Uniform, high heat output",
+      "Easy handling",
+      "Lower carbon monoxide production when compared with wood charcoal",
     ],
-    shapes: ["Pillow", "Hexagon", "Cube"],
     cta: "Request briquette quote",
+    available: true,
   },
   {
-    id: "lighter-cubes",
-    kicker: "Accessories",
-    name: "Light 'Er Up Fire Starter Cubes",
+    id: "activated-carbon",
+    name: "Activated Carbon",
     blurb:
-      "Natural fire starter cubes for fast, hassle-free ignition — no petroleum odour carried into the food.",
-    specs: [
-      { k: "Ignition speed", v: "Fires briquettes in under 10 min" },
-      { k: "Safety", v: "Smokeless & 100% odourless" },
-      { k: "Burn duration", v: "Burns long enough to light a full batch" },
-      { k: "Use with", v: "All Flareon briquette shapes" },
+      "High-adsorption coconut shell activated carbon for water, air and industrial filtration — milled on the same line that feeds our briquette press.",
+    points: ["Coming soon"],
+    cta: "Request quote",
+    available: false,
+  },
+];
+
+// Four pressed shapes — three distinguishing points each (Products page cards).
+export const briquetteShapes = [
+  {
+    id: "hexagon",
+    name: "Hexagonal",
+    points: [
+      "Hollow core draws air through the centre for a faster, cleaner light",
+      "Flat faces stack tight — highest payload per carton",
+      "Longest steady burn of the range, built for commercial grills",
     ],
-    shapes: ["Boxed 24s", "Boxed 32s"],
-    cta: "Request lighter cube specs",
+  },
+  {
+    id: "pillow",
+    name: "Pillow",
+    points: [
+      "The familiar supermarket BBQ shape buyers already recognise",
+      "Ashes over evenly for direct grilling and smoking",
+      "Rounded edges resist chipping in retail handling",
+    ],
+  },
+  {
+    id: "cube",
+    name: "Cube",
+    points: [
+      "Cut to shisha bowl sizes — 22 mm, 25 mm and 26 mm",
+      "Dense, low-ash body sized for a full session",
+      "Sharp edges catch quickly on a lighting grill",
+    ],
+  },
+  {
+    id: "honeycomb",
+    name: "Honeycomb",
+    points: [
+      "Multi-hole face gives the largest burning surface area",
+      "Fastest heat ramp when a grill needs to be up in minutes",
+      "Sits flat and stable in stoves and bucket grills",
+    ],
+  },
+];
+
+// End-to-end process for the activated carbon line (Company page).
+export const carbonProcessSteps = [
+  {
+    n: "01",
+    title: "Shell char selection",
+    body: "High fixed-carbon shell charcoal graded and screened before activation.",
+  },
+  {
+    n: "02",
+    title: "Steam activation",
+    body: "High-temperature steam activation opens the internal pore structure.",
+  },
+  {
+    n: "03",
+    title: "Milling & sieving",
+    body: "Milled to powder or granular mesh grades and sieved to specification.",
+  },
+  {
+    n: "04",
+    title: "Testing & packing",
+    body: "Iodine value checked, then sealed into 25 kg moisture-barrier sacks.",
   },
 ];
 
@@ -147,34 +226,40 @@ export const benchmark = {
   ],
 };
 
+// Each entry points at a real file in /public/docs. `meta` is printed under the
+// title so a buyer can verify the certificate number before downloading.
 export const certificates = [
   {
     tag: "ISO certificate",
     title: "ISO 9001:2015 (TÜV SÜD South Asia)",
-    body: "Consistent quality management systems and international compliance.",
+    body: "Quality management system certified for the manufacture and supply of coconut shell charcoal briquettes, and trading of BBQ grills and accessories.",
+    meta: "Reg. no. 99 100 20813 · valid 2023-03-20 to 2026-03-19",
     file: "/docs/flareon-iso-9001.pdf",
     cta: "Download ISO 9001 PDF",
   },
   {
-    tag: "Ethical factory audit",
-    title: "Sedex SMETA 2-Pillar Certified Audit",
-    body: "Verifies labour standards, environmental management and ethical factory operations.",
-    file: "/docs/flareon-sedex-smeta.pdf",
-    cta: "Download Sedex audit PDF",
-  },
-  {
     tag: "Lab test report",
-    title: "Bureau Veritas Comparative Test Report",
-    body: "Third-party laboratory report detailing calorific value and combustion curves.",
+    title: "Bureau Veritas Comparative Study",
+    body: "Third-party combustion comparison against Kingsford wood charcoal: volatile matter, ash, moisture, ignition, ash-over and time at cooking temperature.",
+    meta: "Report (5119)212-0073 Rev. 1 · ASTM D1762",
     file: "/docs/flareon-bureau-veritas.pdf",
     cta: "Download Bureau Veritas report",
   },
   {
-    tag: "Safety & COA",
-    title: "MSDS & Certificate of Analysis (COA)",
-    body: "Material safety data sheet for customs clearance and ocean freight.",
-    file: "/docs/flareon-msds-coa.pdf",
-    cta: "Download MSDS / COA sheet",
+    tag: "Safety data",
+    title: "Material Safety Data Sheet (MSDS)",
+    body: "Full 16-section safety data sheet for customs clearance and ocean freight, including handling, transport class and physical properties.",
+    meta: "CAS 1333-86-4 · UN 1362, Hazard Class 4.2, Packing group III",
+    file: "/docs/flareon-msds.pdf",
+    cta: "Download MSDS sheet",
+  },
+  {
+    tag: "Export registration",
+    title: "Coconut Development Board RCMC",
+    body: "Registration cum Membership Certificate issued under the Foreign Trade Policy, covering coconut shell activated carbon and charcoal briquettes.",
+    meta: "Reg. no. 19203797 · IEC 3209000573 · valid to 2029-03-31",
+    file: "/docs/flareon-cdb-rcmc.pdf",
+    cta: "Download RCMC certificate",
   },
 ];
 
@@ -227,15 +312,13 @@ export const activeDestinations = [
   { flag: "🇦🇪", name: "UAE" },
 ];
 
-export const shippingLines = [
-  "Maersk",
-  "MSC",
-  "CMA CGM",
-  "Hapag-Lloyd",
-  "ONE",
-  "Evergreen",
-  "COSCO",
-  "Wan Hai",
+// Homepage closing section — condensed from the managing partner's own note.
+export const partnerNote = [
+  "Over the years I've built this business on lasting relationships, global markets, and value created through trust, consistency and innovation — integrity and reliability first, always.",
+  "🤝 We work with importers, wholesalers, distributors, retailers and industrial buyers across international and local markets, on terms built for the long run.",
+  "🌱 Our range covers premium coconut shell charcoal briquettes in hexagonal, pillow, honeycomb and cube shapes, made to meet the needs of global industries.",
+  "♻️ Sustainability sits at the heart of it: turning renewable shell waste into high-performance products helps our buyers move to cleaner energy.",
+  "📩 Whether you need a dependable supplier or want to explore an opportunity, I'd be glad to connect. Let's build sustainable partnerships and create value together.",
 ];
 
 export const faqs = [

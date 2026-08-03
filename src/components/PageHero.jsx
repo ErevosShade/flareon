@@ -1,8 +1,20 @@
 import { Eyebrow } from "./ui";
 
-export default function PageHero({ eyebrow, title, sub, children }) {
+export default function PageHero({ eyebrow, title, sub, image, children }) {
   return (
     <section className="relative overflow-hidden border-b border-line">
+      {image && (
+        <>
+          <img
+            src={image.src}
+            alt={image.alt}
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 size-full object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-linear-to-r from-ink via-ink/85 to-ink/40" />
+        </>
+      )}
       <div className="pointer-events-none absolute inset-x-0 -top-32 h-96 bg-[radial-gradient(50%_60%_at_30%_0%,rgba(255,90,31,0.14),transparent_70%)]" />
       <div className="grain absolute inset-0" />
       <div className="shell relative py-16 md:py-20">
