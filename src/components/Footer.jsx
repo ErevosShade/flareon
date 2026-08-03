@@ -44,7 +44,7 @@ function SocialIcon({ name }) {
 }
 
 export default function Footer() {
-  const { t } = useMarket();
+  const { c } = useMarket();
   return (
     <footer className="border-t border-line bg-ink-2 grain">
       <div className="shell grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr]">
@@ -106,27 +106,27 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="eyebrow mb-4">Export terms</p>
+          <p className="eyebrow mb-4">{c.footer.exportTerms}</p>
           <ul className="space-y-3 text-sm">
-            {exportTerms.map((x) => (
+            {exportTerms.map((x, i) => (
               <li key={x.k}>
-                <span className="block text-ash-3">{x.k}</span>
-                <span className="text-ash-2">{x.v}</span>
+                <span className="block text-ash-3">{c.exportTerms[i].k}</span>
+                <span className="text-ash-2">{c.exportTerms[i].v}</span>
               </li>
             ))}
           </ul>
         </div>
 
         <div>
-          <p className="eyebrow mb-4">Navigate</p>
+          <p className="eyebrow mb-4">{c.footer.navigate}</p>
           <ul className="space-y-2 text-sm">
             {[
-              ["/", t("nav.home")],
-              ["/company", t("nav.company")],
-              ["/products", t("nav.products")],
-              ["/gallery", t("nav.gallery")],
-              ["/compliance", t("nav.compliance")],
-              ["/export-quote", t("nav.export")],
+              ["/", c.nav.home],
+              ["/company", c.nav.company],
+              ["/products", c.nav.products],
+              ["/gallery", c.nav.gallery],
+              ["/compliance", c.nav.compliance],
+              ["/export-quote", c.nav.export],
             ].map(([to, label]) => (
               <li key={to}>
                 <Link to={to} className="text-ash-2 hover:text-glow">
@@ -135,14 +135,14 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-          <p className="eyebrow mt-8 mb-3">Shipping now to</p>
+          <p className="eyebrow mt-8 mb-3">{c.footer.shippingTo}</p>
           <div className="flex flex-wrap gap-2">
             {activeDestinations.map((d) => (
               <span
                 key={d.name}
                 className="rounded-full border border-line px-2.5 py-1 text-[12px] text-ash-3"
               >
-                <span aria-hidden>{d.flag}</span> {d.name}
+                <span aria-hidden>{d.flag}</span> {c.destinations[d.name] ?? d.name}
               </span>
             ))}
           </div>
@@ -151,10 +151,12 @@ export default function Footer() {
 
       <div className="border-t border-line">
         <div className="shell flex flex-col gap-2 py-5 text-[12px] text-ash-3 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} {company.name}. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {company.name}. {c.footer.rights}
+          </p>
           <p className="flex gap-4">
-            <a href="#" className="hover:text-ash-2">Privacy Policy</a>
-            <a href="#" className="hover:text-ash-2">Terms of Supply</a>
+            <a href="#" className="hover:text-ash-2">{c.footer.privacy}</a>
+            <a href="#" className="hover:text-ash-2">{c.footer.terms}</a>
           </p>
         </div>
       </div>

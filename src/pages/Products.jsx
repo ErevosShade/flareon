@@ -1,4 +1,5 @@
 import { products, briquetteShapes, grades, oem } from "../data/site";
+import { useMarket } from "../market-context";
 import { Section, SectionHead, Button, Eyebrow, Coal } from "../components/ui";
 import PageHero from "../components/PageHero";
 import { Figure } from "../components/Figure";
@@ -19,7 +20,9 @@ const shapeFit = {
 
 // One card per pressed shape, with what actually sets it apart.
 function ShapeCard({ shape }) {
+  const { c } = useMarket();
   const image = shapeImage[shape.id];
+  const copy = c.briquetteShapes[shape.id];
   return (
     <article className="panel panel-hover group flex flex-col overflow-hidden">
       <img
@@ -32,9 +35,9 @@ function ShapeCard({ shape }) {
         }`}
       />
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="text-[19px] font-bold text-ash">{shape.name}</h3>
+        <h3 className="text-[19px] font-bold text-ash">{copy.name}</h3>
         <ul className="mt-4 space-y-2.5">
-          {shape.points.map((pt) => (
+          {copy.points.map((pt) => (
             <li key={pt} className="flex gap-2.5 text-[14px] leading-snug text-ash-3">
               <Coal className="mt-1.5" />
               <span>{pt}</span>
@@ -48,6 +51,8 @@ function ShapeCard({ shape }) {
 
 // Grade tiers, folded into the briquette section as cards.
 function GradeCard({ g }) {
+  const { c } = useMarket();
+  const tier = c.grades[g.name];
   return (
     <div
       className={`panel panel-hover relative p-6 ${
@@ -56,17 +61,17 @@ function GradeCard({ g }) {
     >
       {g.highlight && (
         <span className="absolute -top-2.5 left-6 rounded-full bg-linear-to-b from-ember to-ember-2 px-2.5 py-0.5 font-mono text-[10px] tracking-widest text-white uppercase">
-          Most exported
+          {c.specs.mostExported}
         </span>
       )}
-      <h4 className="font-display text-xl font-extrabold text-ash">{g.name}</h4>
-      <p className="mt-1 text-[14px] text-ash-3">{g.use}</p>
+      <h4 className="font-display text-xl font-extrabold text-ash">{tier.name}</h4>
+      <p className="mt-1 text-[14px] text-ash-3">{tier.use}</p>
       <dl className="mt-5 divide-y divide-line border-y border-line">
         {[
-          ["Ash", g.ash],
-          ["Moisture", g.moisture],
-          ["Burn", g.burn],
-          ["Fixed carbon", g.fixedCarbon],
+          [c.specs.ash, g.ash],
+          [c.specs.moisture, g.moisture],
+          [c.specs.burn, `${g.burn} ${c.units.hoursShort}`],
+          [c.specs.fixedCarbon, g.fixedCarbon],
         ].map(([k, v]) => (
           <div key={k} className="flex items-baseline justify-between py-2.5">
             <dt className="text-[14px] text-ash-3">{k}</dt>
@@ -79,19 +84,21 @@ function GradeCard({ g }) {
 }
 
 function Briquettes() {
+  const { c } = useMarket();
   const p = products[0];
+  const item = c.productItems[p.id];
   return (
     <Section tone="ink">
       <div className="grid items-center gap-10 lg:grid-cols-2">
         <div>
           <h2 className="text-3xl font-extrabold leading-tight text-ash md:text-4xl">
-            {p.name}
+            {item.name}
           </h2>
           <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-ash-2">
-            {p.blurb}
+            {item.blurb}
           </p>
           <ul className="mt-8 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
-            {(p.pointsFull ?? p.points).map((pt) => (
+            {(item.pointsFull ?? item.points).map((pt) => (
               <li key={pt} className="flex gap-2.5 text-[15px] text-ash-2">
                 <Coal className="mt-2" />
                 <span>{pt}</span>
@@ -99,23 +106,23 @@ function Briquettes() {
             ))}
           </ul>
           <Button to="/export-quote" className="mt-8">
-            {p.cta} →
+            {item.cta} →
           </Button>
         </div>
         <Figure
           image={media.fire.hexagon}
           ratio="wide"
           glow
-          label="Four hours of steady heat"
-          note="Pressed from carbonised coconut shell with a potato starch binder only."
+          label={c.products.briquettes.figureLabel}
+          note={c.products.briquettes.figureNote}
         />
       </div>
 
       <div className="mt-20">
         <SectionHead
-          eyebrow="Shapes we press"
-          title="Four shapes, each doing a different job"
-          sub="Every shape runs the same chemistry — the geometry is what changes how it lights, stacks and burns."
+          eyebrow={c.products.briquettes.shapesEyebrow}
+          title={c.products.briquettes.shapesTitle}
+          sub={c.products.briquettes.shapesSub}
         />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {briquetteShapes.map((s) => (
@@ -126,9 +133,9 @@ function Briquettes() {
 
       <div className="mt-20">
         <SectionHead
-          eyebrow="Grade comparison"
-          title="Three grades of the same briquette"
-          sub="Ash, moisture, burn time and fixed carbon, side by side — pick the tier that matches your market."
+          eyebrow={c.products.briquettes.gradesEyebrow}
+          title={c.products.briquettes.gradesTitle}
+          sub={c.products.briquettes.gradesSub}
         />
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {grades.map((g) => (
@@ -141,31 +148,38 @@ function Briquettes() {
 }
 
 function ActivatedCarbon() {
+  const { c } = useMarket();
   const p = products[1];
+  const item = c.productItems[p.id];
   return (
     <Section tone="raised">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:[&>*:first-child]:order-2">
         <div>
           <div className="flex flex-wrap items-center gap-3">
             <h2 className="text-3xl font-extrabold leading-tight text-ash md:text-4xl">
-              {p.name}
+              {item.name}
             </h2>
             <span className="rounded-full border border-ember/40 bg-ember/10 px-3 py-1 font-mono text-[11px] tracking-widest text-glow uppercase">
-              Coming soon
+              {c.common.comingSoon}
             </span>
           </div>
           <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-ash-2">
-            {p.blurb}
+            {item.blurb}
           </p>
 
           <dl className="mt-8 divide-y divide-line border-y border-line">
-            {["Grades", "Iodine value", "Mesh sizes", "Packing"].map((k) => (
+            {[
+              c.products.carbon.specGrades,
+              c.products.carbon.specIodine,
+              c.products.carbon.specMesh,
+              c.products.carbon.specPacking,
+            ].map((k) => (
               <div key={k} className="flex items-baseline justify-between gap-6 py-3.5">
                 <dt className="flex items-center gap-2 text-[15px] text-ash-3">
                   <Coal /> {k}
                 </dt>
                 <dd className="text-end font-mono text-[14px] text-ash-3">
-                  Coming soon
+                  {c.common.comingSoon}
                 </dd>
               </div>
             ))}
@@ -176,10 +190,10 @@ function ActivatedCarbon() {
             type="button"
             disabled
             aria-disabled="true"
-            title="Activated carbon is not yet open for orders"
+            title={c.products.carbon.ctaTitle}
             className="mt-8 cursor-not-allowed"
           >
-            {p.cta} — coming soon
+            {c.products.carbon.ctaDisabled}
           </Button>
         </div>
         {/* No product photography until the line is running. */}
@@ -187,11 +201,11 @@ function ActivatedCarbon() {
           <div>
             <span className="ember-pulse pointer-events-none absolute inset-0 -z-10" />
             <p className="font-display text-4xl font-black tracking-tight text-ash md:text-5xl">
-              Coming <span className="ember-text">Soon</span>
+              {c.products.carbon.comingSoonA}{" "}
+              <span className="ember-text">{c.products.carbon.comingSoonB}</span>
             </p>
             <p className="mx-auto mt-4 max-w-sm text-[15px] leading-relaxed text-ash-3">
-              Grades, iodine values and mesh sizes are being finalised. Register
-              your requirement and we'll come to you first.
+              {c.products.carbon.comingSoonNote}
             </p>
           </div>
         </div>
@@ -201,17 +215,18 @@ function ActivatedCarbon() {
 }
 
 export default function Products() {
+  const { c } = useMarket();
   return (
     <>
       <PageHero
-        eyebrow="Products & OEM"
+        eyebrow={c.products.hero.eyebrow}
         title={
           <>
-            Built for commercial heat.{" "}
-            <span className="ember-text">Packed for your label.</span>
+            {c.products.hero.titleA}{" "}
+            <span className="ember-text">{c.products.hero.titleB}</span>
           </>
         }
-        sub="Coconut shell charcoal briquettes for the grill, and activated carbon for filtration — supplied loose, retail-packed, or fully private-labelled under your own brand."
+        sub={c.products.hero.sub}
         image={media.fire.hexagon}
       />
 
@@ -220,32 +235,32 @@ export default function Products() {
 
       <Section tone="ink" id="oem">
         <SectionHead
-          eyebrow="Export OEM"
-          title="Private label & custom packaging desk"
-          sub="Send us artwork and a target retail size. We return a dieline, a carton mock-up and a container capacity calculation."
+          eyebrow={c.products.oem.eyebrow}
+          title={c.products.oem.title}
+          sub={c.products.oem.sub}
         />
         <div className="mt-12 grid items-start gap-5 lg:grid-cols-[1fr_1.1fr]">
           <Figure
             image={media.logistics.retailBags}
             ratio="wide"
-            label="Private label, printed and packed"
-            note="Full CMYK cartons and retail bags — your brand, our line."
+            label={c.products.oem.figureLabel}
+            note={c.products.oem.figureNote}
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
-            {oem.map((o) => (
+            {oem.map((o, i) => (
               <div key={o.title} className="panel panel-hover p-7">
-                <h3 className="text-[17px] font-bold text-ash">{o.title}</h3>
+                <h3 className="text-[17px] font-bold text-ash">{c.oem[i].title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-ash-3">
-                  {o.body}
+                  {c.oem[i].body}
                 </p>
               </div>
             ))}
           </div>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button to="/export-quote">Request OEM packaging template</Button>
+          <Button to="/export-quote">{c.cta.oemTemplate}</Button>
           <Button to="/export-quote#briquette-form" variant="outline">
-            Open the export desk
+            {c.cta.openExportDesk}
           </Button>
         </div>
       </Section>

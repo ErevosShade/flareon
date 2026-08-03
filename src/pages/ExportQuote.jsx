@@ -6,6 +6,7 @@ import {
   activeDestinations,
   grades,
 } from "../data/site";
+import { useMarket } from "../market-context";
 import { Section, SectionHead, Button, Eyebrow, Coal } from "../components/ui";
 import PageHero from "../components/PageHero";
 import media from "../data/images";
@@ -17,53 +18,56 @@ const label = "mb-2 block text-[13px] font-medium text-ash-2";
 const CARTON_SIZES = [1, 3, 5, 10];
 const OTHER_PORT = "Other / custom port";
 
-// Shared contact block at the top of both forms.
+// Every <option value> stays the canonical English string — the form payload
+// reads the same whatever locale the buyer filled it in from. Only the visible
+// label is translated.
 function ContactFields({ form, set, idPrefix }) {
+  const { c } = useMarket();
   return (
     <div className="grid gap-5 sm:grid-cols-2">
       <div>
         <label className={label} htmlFor={`${idPrefix}-name`}>
-          Full name
+          {c.exportDesk.form.fullName}
         </label>
         <input
           id={`${idPrefix}-name`}
           required
           className={field}
-          placeholder="John Doe"
+          placeholder={c.exportDesk.form.namePlaceholder}
           value={form.name}
           onChange={set("name")}
         />
       </div>
       <div>
         <label className={label} htmlFor={`${idPrefix}-company`}>
-          Company name
+          {c.exportDesk.form.companyName}
         </label>
         <input
           id={`${idPrefix}-company`}
           required
           className={field}
-          placeholder="Global Imports LLC"
+          placeholder={c.exportDesk.form.companyPlaceholder}
           value={form.company}
           onChange={set("company")}
         />
       </div>
       <div>
         <label className={label} htmlFor={`${idPrefix}-email`}>
-          Business email
+          {c.exportDesk.form.businessEmail}
         </label>
         <input
           id={`${idPrefix}-email`}
           type="email"
           required
           className={field}
-          placeholder="name@company.com"
+          placeholder={c.exportDesk.form.emailPlaceholder}
           value={form.email}
           onChange={set("email")}
         />
       </div>
       <div>
         <label className={label} htmlFor={`${idPrefix}-phone`}>
-          WhatsApp phone
+          {c.exportDesk.form.whatsappPhone}
         </label>
         <input
           id={`${idPrefix}-phone`}
@@ -78,12 +82,13 @@ function ContactFields({ form, set, idPrefix }) {
 }
 
 // Destination port with a free-text fallback when the port isn't listed.
-function PortFields({ form, set, setForm, idPrefix }) {
+function PortFields({ form, set, idPrefix }) {
+  const { c } = useMarket();
   return (
     <>
       <div>
         <label className={label} htmlFor={`${idPrefix}-port`}>
-          Destination port
+          {c.exportDesk.form.destinationPort}
         </label>
         <select
           id={`${idPrefix}-port`}
@@ -92,20 +97,22 @@ function PortFields({ form, set, setForm, idPrefix }) {
           onChange={set("port")}
         >
           {destinationPorts.map((d) => (
-            <option key={d.port}>{d.port}</option>
+            <option key={d.port} value={d.port}>
+              {c.ports[d.port] ?? d.port}
+            </option>
           ))}
         </select>
       </div>
       {form.port === OTHER_PORT && (
         <div>
           <label className={label} htmlFor={`${idPrefix}-customPort`}>
-            Tell us the port
+            {c.exportDesk.form.tellUsPort}
           </label>
           <input
             id={`${idPrefix}-customPort`}
             required
             className={field}
-            placeholder="Port name, country"
+            placeholder={c.exportDesk.form.portPlaceholder}
             value={form.customPort}
             onChange={set("customPort")}
           />
@@ -116,24 +123,26 @@ function PortFields({ form, set, setForm, idPrefix }) {
 }
 
 function Sent({ onEdit }) {
+  const { c } = useMarket();
+  const [before, after] = c.exportDesk.sent.body.split("{file}");
   return (
     <div className="mt-8 rounded-lg border border-ember/40 bg-ember/5 p-7">
       <p className="font-display text-xl font-bold text-ash">
-        Enquiry ready to send.
+        {c.exportDesk.sent.title}
       </p>
       <p className="mt-3 text-sm leading-relaxed text-ash-2">
-        This build has no backend wired up yet. Hook the submit handler in{" "}
+        {before}
         <code className="font-mono text-[12px] text-glow">
           src/pages/ExportQuote.jsx
-        </code>{" "}
-        to your CRM, email API or WhatsApp Business endpoint.
+        </code>
+        {after}
       </p>
       <div className="mt-6 flex flex-wrap gap-3">
         <Button href={company.whatsappHref} size="sm">
-          Send via WhatsApp instead
+          {c.exportDesk.sent.whatsapp}
         </Button>
         <Button variant="outline" size="sm" onClick={onEdit}>
-          Edit enquiry
+          {c.exportDesk.sent.edit}
         </Button>
       </div>
     </div>
@@ -141,6 +150,7 @@ function Sent({ onEdit }) {
 }
 
 function BriquetteForm() {
+  const { c } = useMarket();
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -159,9 +169,9 @@ function BriquetteForm() {
 
   return (
     <div className="panel flex h-full flex-col p-7 md:p-9" id="briquette-form">
-      <Eyebrow className="mb-2">Briquettes</Eyebrow>
+      <Eyebrow className="mb-2">{c.exportDesk.briquetteForm.eyebrow}</Eyebrow>
       <h2 className="text-2xl font-extrabold text-ash">
-        Charcoal briquette FOB / CIF inquiry
+        {c.exportDesk.briquetteForm.title}
       </h2>
 
       {sent ? (
@@ -177,15 +187,16 @@ function BriquetteForm() {
           <ContactFields form={form} set={set} idPrefix="bq" />
 
           <div>
-            <span className={label}>Container load</span>
+            <span className={label}>{c.exportDesk.form.containerLoad}</span>
             <div className="grid gap-3 sm:grid-cols-2">
-              {containers.map((c) => {
-                const active = form.container === c.id;
+              {containers.map((ct) => {
+                const active = form.container === ct.id;
+                const copy = c.containers[ct.id];
                 return (
                   <button
                     type="button"
-                    key={c.id}
-                    onClick={() => setForm((f) => ({ ...f, container: c.id }))}
+                    key={ct.id}
+                    onClick={() => setForm((f) => ({ ...f, container: ct.id }))}
                     className={`rounded-md border px-4 py-3.5 text-start transition-colors ${
                       active
                         ? "border-ember/60 bg-ember/10"
@@ -197,10 +208,10 @@ function BriquetteForm() {
                         active ? "text-glow" : "text-ash"
                       }`}
                     >
-                      {c.label}
+                      {copy.label}
                     </span>
                     <span className="mt-0.5 block font-mono text-[11px] text-ash-3">
-                      {c.tons} · {c.pallets}
+                      {copy.tons} · {copy.pallets}
                     </span>
                   </button>
                 );
@@ -209,11 +220,11 @@ function BriquetteForm() {
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
-            <PortFields form={form} set={set} setForm={setForm} idPrefix="bq" />
+            <PortFields form={form} set={set} idPrefix="bq" />
 
             <div>
               <label className={label} htmlFor="bq-grade">
-                Grade
+                {c.exportDesk.form.grade}
               </label>
               <select
                 id="bq-grade"
@@ -222,14 +233,16 @@ function BriquetteForm() {
                 onChange={set("grade")}
               >
                 {grades.map((g) => (
-                  <option key={g.name}>{`${g.name} — ash ${g.ash}`}</option>
+                  <option key={g.name} value={g.name}>
+                    {`${c.grades[g.name].name} — ${c.specs.ash} ${g.ash}`}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div>
               <label className={label} htmlFor="bq-carton">
-                Master carton size
+                {c.exportDesk.form.cartonSize}
               </label>
               <select
                 id="bq-carton"
@@ -237,15 +250,17 @@ function BriquetteForm() {
                 value={form.carton}
                 onChange={set("carton")}
               >
-                {CARTON_SIZES.map((c) => (
-                  <option key={c} value={c}>{`${c} kg`}</option>
+                {CARTON_SIZES.map((size) => (
+                  <option key={size} value={size}>
+                    {`${size} ${c.exportDesk.form.cartonUnit}`}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div>
               <label className={label} htmlFor="bq-payment">
-                Payment terms
+                {c.exportDesk.form.paymentTerms}
               </label>
               <select
                 id="bq-payment"
@@ -253,15 +268,19 @@ function BriquetteForm() {
                 value={form.payment}
                 onChange={set("payment")}
               >
-                <option>T/T wire transfer</option>
-                <option>Irrevocable Letter of Credit (L/C)</option>
+                <option value="T/T wire transfer">
+                  {c.exportDesk.form.paymentTT}
+                </option>
+                <option value="Irrevocable Letter of Credit (L/C)">
+                  {c.exportDesk.form.paymentLC}
+                </option>
               </select>
             </div>
           </div>
 
           <div>
             <label className={label} htmlFor="bq-notes">
-              Anything else? (private label, factory visit dates, sample request)
+              {c.exportDesk.form.notes}
             </label>
             <textarea
               id="bq-notes"
@@ -273,10 +292,10 @@ function BriquetteForm() {
           </div>
 
           <Button type="submit" size="lg" className="w-full">
-            Submit briquette quote request →
+            {c.exportDesk.briquetteForm.submit}
           </Button>
           <p className="text-center text-[12px] text-ash-3">
-            Indicative price band returned the same working day.
+            {c.exportDesk.briquetteForm.footnote}
           </p>
         </form>
       )}
@@ -285,6 +304,7 @@ function BriquetteForm() {
 }
 
 function CarbonForm() {
+  const { c } = useMarket();
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -303,17 +323,16 @@ function CarbonForm() {
   return (
     <div className="panel flex h-full flex-col p-7 md:p-9" id="carbon-form">
       <div className="flex flex-wrap items-center gap-3">
-        <Eyebrow>Activated carbon</Eyebrow>
+        <Eyebrow>{c.exportDesk.carbonForm.eyebrow}</Eyebrow>
         <span className="rounded-full border border-ember/40 bg-ember/10 px-2.5 py-0.5 font-mono text-[10px] tracking-widest text-glow uppercase">
-          Coming soon
+          {c.common.comingSoon}
         </span>
       </div>
       <h2 className="mt-2 text-2xl font-extrabold text-ash">
-        Activated carbon enquiry
+        {c.exportDesk.carbonForm.title}
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-ash-2">
-        The carbon line is not open for orders yet. Register your requirement and
-        we will come back to you with grades and pricing the moment it is.
+        {c.exportDesk.carbonForm.intro}
       </p>
 
       {sent ? (
@@ -331,7 +350,7 @@ function CarbonForm() {
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className={label} htmlFor="ac-application">
-                Application
+                {c.exportDesk.carbonForm.application}
               </label>
               <select
                 id="ac-application"
@@ -339,17 +358,27 @@ function CarbonForm() {
                 value={form.application}
                 onChange={set("application")}
               >
-                <option>Water treatment</option>
-                <option>Air &amp; gas purification</option>
-                <option>Food &amp; beverage</option>
-                <option>Gold recovery</option>
-                <option>Other industrial use</option>
+                <option value="Water treatment">
+                  {c.exportDesk.carbonForm.appWater}
+                </option>
+                <option value="Air & gas purification">
+                  {c.exportDesk.carbonForm.appAir}
+                </option>
+                <option value="Food & beverage">
+                  {c.exportDesk.carbonForm.appFood}
+                </option>
+                <option value="Gold recovery">
+                  {c.exportDesk.carbonForm.appGold}
+                </option>
+                <option value="Other industrial use">
+                  {c.exportDesk.carbonForm.appOther}
+                </option>
               </select>
             </div>
 
             <div>
               <label className={label} htmlFor="ac-grade">
-                Grade of interest
+                {c.exportDesk.carbonForm.gradeInterest}
               </label>
               <select
                 id="ac-grade"
@@ -357,32 +386,40 @@ function CarbonForm() {
                 value={form.grade}
                 onChange={set("grade")}
               >
-                <option>Powdered (PAC)</option>
-                <option>Granular (GAC)</option>
-                <option>Pelletised</option>
-                <option>Not sure yet</option>
+                <option value="Powdered (PAC)">
+                  {c.exportDesk.carbonForm.gradePac}
+                </option>
+                <option value="Granular (GAC)">
+                  {c.exportDesk.carbonForm.gradeGac}
+                </option>
+                <option value="Pelletised">
+                  {c.exportDesk.carbonForm.gradePellet}
+                </option>
+                <option value="Not sure yet">
+                  {c.exportDesk.carbonForm.gradeUnsure}
+                </option>
               </select>
             </div>
 
             <div>
               <label className={label} htmlFor="ac-quantity">
-                Indicative quantity
+                {c.exportDesk.carbonForm.quantity}
               </label>
               <input
                 id="ac-quantity"
                 className={field}
-                placeholder="e.g. 10 MT per month"
+                placeholder={c.exportDesk.carbonForm.quantityPlaceholder}
                 value={form.quantity}
                 onChange={set("quantity")}
               />
             </div>
 
-            <PortFields form={form} set={set} setForm={setForm} idPrefix="ac" />
+            <PortFields form={form} set={set} idPrefix="ac" />
           </div>
 
           <div>
             <label className={label} htmlFor="ac-notes">
-              Specification notes (iodine value, mesh size, packing)
+              {c.exportDesk.carbonForm.specNotes}
             </label>
             <textarea
               id="ac-notes"
@@ -394,10 +431,10 @@ function CarbonForm() {
           </div>
 
           <Button type="submit" size="lg" className="w-full">
-            Register carbon requirement →
+            {c.exportDesk.carbonForm.submit}
           </Button>
           <p className="text-center text-[12px] text-ash-3">
-            We'll contact you as soon as the line opens for orders.
+            {c.exportDesk.carbonForm.footnote}
           </p>
         </form>
       )}
@@ -406,6 +443,7 @@ function CarbonForm() {
 }
 
 function SalesDesk() {
+  const { c } = useMarket();
   const { managingPartner } = company;
   return (
     <section className="relative overflow-hidden border-y border-line py-20 md:py-28">
@@ -421,9 +459,9 @@ function SalesDesk() {
 
       <div className="shell relative grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
         <div>
-          <Eyebrow className="mb-3">Direct export sales desk</Eyebrow>
+          <Eyebrow className="mb-3">{c.exportDesk.desk.eyebrow}</Eyebrow>
           <h2 className="text-4xl font-extrabold leading-tight text-ash md:text-5xl">
-            Talk to a person, not a ticket queue
+            {c.exportDesk.desk.title}
           </h2>
           <p className="mt-6 text-[17px] leading-relaxed text-ash-2">
             {company.name} — {company.address}
@@ -437,31 +475,35 @@ function SalesDesk() {
             rel="noreferrer noopener"
             className="panel panel-hover p-7"
           >
-            <Eyebrow>WhatsApp</Eyebrow>
+            <Eyebrow>{c.exportDesk.desk.whatsapp}</Eyebrow>
             <p className="mt-3 text-[20px] font-semibold text-ash">
               {company.whatsapp}
             </p>
-            <p className="mt-2 text-[15px] text-ash-3">Fastest reply</p>
+            <p className="mt-2 text-[15px] text-ash-3">
+              {c.exportDesk.desk.whatsappNote}
+            </p>
           </a>
 
           <a href={`mailto:${company.emails[0]}`} className="panel panel-hover p-7">
-            <Eyebrow>Enquiries</Eyebrow>
+            <Eyebrow>{c.exportDesk.desk.enquiries}</Eyebrow>
             <p className="mt-3 break-all text-[20px] font-semibold text-ash">
               {company.emails[0]}
             </p>
-            <p className="mt-2 text-[15px] text-ash-3">General export desk</p>
+            <p className="mt-2 text-[15px] text-ash-3">
+              {c.exportDesk.desk.enquiriesNote}
+            </p>
           </a>
 
           <a
             href={`mailto:${managingPartner.email}`}
             className="panel panel-hover p-7 sm:col-span-2"
           >
-            <Eyebrow>{managingPartner.role}</Eyebrow>
+            <Eyebrow>{c.roles.managingPartner}</Eyebrow>
             <p className="mt-3 break-all text-[20px] font-semibold text-ash">
               {managingPartner.email}
             </p>
             <p className="mt-2 text-[15px] text-ash-3">
-              {managingPartner.name} — for partnerships and large contracts
+              {c.exportDesk.desk.partnerNote.replace("{name}", managingPartner.name)}
             </p>
           </a>
         </div>
@@ -471,17 +513,18 @@ function SalesDesk() {
 }
 
 export default function ExportQuote() {
+  const { c } = useMarket();
   return (
     <>
       <PageHero
-        eyebrow="Export logistics & container desk"
+        eyebrow={c.exportDesk.hero.eyebrow}
         title={
           <>
-            Tell us the port.{" "}
-            <span className="ember-text">We'll quote FOB or CIF.</span>
+            {c.exportDesk.hero.titleA}{" "}
+            <span className="ember-text">{c.exportDesk.hero.titleB}</span>
           </>
         }
-        sub="Flexible MOQ from a single 20ft FCL, T/T or irrevocable L/C from the first container, and same-day indicative pricing — not a callback request."
+        sub={c.exportDesk.hero.sub}
         image={media.logistics.port}
       />
 
@@ -497,8 +540,8 @@ export default function ExportQuote() {
 
       <Section tone="ink">
         <SectionHead
-          eyebrow="Global reach"
-          title="Containers already moving"
+          eyebrow={c.exportDesk.reach.eyebrow}
+          title={c.exportDesk.reach.title}
           align="center"
         />
         <div className="mt-12 flex flex-wrap justify-center gap-4">
@@ -510,7 +553,7 @@ export default function ExportQuote() {
               <span aria-hidden className="me-2.5 text-xl">
                 {d.flag}
               </span>
-              {d.name}
+              {c.destinations[d.name] ?? d.name}
             </span>
           ))}
         </div>

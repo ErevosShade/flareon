@@ -1,4 +1,5 @@
 import { Section } from "../components/ui";
+import { useMarket } from "../market-context";
 import PageHero from "../components/PageHero";
 import media, { gallery } from "../data/images";
 
@@ -12,7 +13,7 @@ const ratios = {
   cinema: "aspect-16/9",
 };
 
-function Tile({ item }) {
+function Tile({ item, caption }) {
   return (
     <figure
       tabIndex={0}
@@ -28,31 +29,36 @@ function Tile({ item }) {
         }`}
       />
       <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-linear-to-t from-ink via-ink/90 to-transparent px-4 pt-8 pb-3 text-[12px] leading-snug text-ash-2 transition-transform duration-300 group-hover:translate-y-0 group-focus:translate-y-0">
-        {item.caption}
+        {caption}
       </figcaption>
     </figure>
   );
 }
 
 export default function Gallery() {
+  const { c } = useMarket();
   return (
     <>
       <PageHero
-        eyebrow="Gallery"
+        eyebrow={c.gallery.eyebrow}
         title={
           <>
-            The plant, the material,{" "}
-            <span className="ember-text">the burn.</span>
+            {c.gallery.titleA}{" "}
+            <span className="ember-text">{c.gallery.titleB}</span>
           </>
         }
-        sub="Photographed on our own line in Palladam, Tamil Nadu, India — raw shell charcoal through pressing, drying, packing and despatch. Hover any frame for context."
+        sub={c.gallery.sub}
         image={media.plant.conveyorCrates}
       />
 
       <Section tone="raised">
         <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
-          {gallery.map((item) => (
-            <Tile key={item.src} item={item} />
+          {gallery.map((item, i) => (
+            <Tile
+              key={item.src}
+              item={item}
+              caption={c.galleryCaptions[i] ?? item.caption}
+            />
           ))}
         </div>
       </Section>

@@ -7,16 +7,16 @@ import { Button } from "./ui";
 import LanguageMenu from "./LanguageMenu";
 
 const links = [
-  { to: "/", key: "nav.home", end: true },
-  { to: "/company", key: "nav.company" },
-  { to: "/products", key: "nav.products" },
-  { to: "/gallery", key: "nav.gallery" },
-  { to: "/compliance", key: "nav.compliance" },
-  { to: "/export-quote", key: "nav.export" },
+  { to: "/", key: "home", end: true },
+  { to: "/company", key: "company" },
+  { to: "/products", key: "products" },
+  { to: "/gallery", key: "gallery" },
+  { to: "/compliance", key: "compliance" },
+  { to: "/export-quote", key: "export" },
 ];
 
 export default function Header() {
-  const { t } = useMarket();
+  const { c } = useMarket();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
@@ -70,7 +70,7 @@ export default function Header() {
                   }`
                 }
               >
-                {t(l.key)}
+                {c.nav[l.key]}
               </NavLink>
             ))}
           </nav>
@@ -78,12 +78,12 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <LanguageMenu />
             <Button to="/export-quote" size="sm" className="hidden sm:inline-flex">
-              {t("cta.quote")}
+              {c.cta.quote}
             </Button>
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              aria-label="Toggle menu"
+              aria-label={c.common.toggleMenu}
               aria-expanded={open}
               className="grid size-9 place-items-center rounded-md border border-line text-ash-2 lg:hidden"
             >
@@ -105,11 +105,11 @@ export default function Header() {
                   }`
                 }
               >
-                {t(l.key)}
+                {c.nav[l.key]}
               </NavLink>
             ))}
             <Button to="/export-quote" size="sm" className="mt-2 sm:hidden">
-              {t("cta.quote")}
+              {c.cta.quote}
             </Button>
           </nav>
         )}

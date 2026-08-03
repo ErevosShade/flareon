@@ -31,7 +31,7 @@ export const company = {
 // Section 2 of the homepage wireframe.
 export const metrics = [
   { key: "capacity", value: "5,000 MT", label: "Annual export output" },
-  { key: "burn", value: "4 Hours", label: "Guaranteed burn duration" },
+  { key: "burn", value: "4", unit: "hours", label: "Guaranteed burn duration" },
   { key: "power", value: "3.5 MW", label: "Captive windmill power" },
   { key: "chem", value: "0%", label: "Chemicals — food-grade binder only" },
 ];
@@ -194,7 +194,7 @@ export const grades = [
     use: "Volume BBQ retail",
     ash: "< 14%",
     moisture: "< 6%",
-    burn: "3 hrs",
+    burn: "3",
     fixedCarbon: "≥ 72%",
     price: "Indicative band on enquiry",
     highlight: false,
@@ -204,7 +204,7 @@ export const grades = [
     use: "HORECA & supermarket private label",
     ash: "< 12%",
     moisture: "< 5%",
-    burn: "4 hrs",
+    burn: "4",
     fixedCarbon: "≥ 78%",
     price: "Indicative band on enquiry",
     highlight: true,
@@ -214,7 +214,7 @@ export const grades = [
     use: "Shisha lounges & specialty export",
     ash: "< 10%",
     moisture: "< 4.8%",
-    burn: "4+ hrs",
+    burn: "4+",
     fixedCarbon: "≥ 82%",
     price: "Indicative band on enquiry",
     highlight: false,

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { markets, rtlLocales, strings } from "./data/markets";
+import { markets, rtlLocales } from "./data/markets";
+import { getContent } from "./content";
 
 const MarketContext = createContext(null);
 const STORAGE_KEY = "flareon.market";
@@ -24,15 +25,17 @@ export function MarketProvider({ children }) {
       : "ltr";
   }, [market]);
 
-  const value = useMemo(() => {
-    const t = (key) => strings[market.locale]?.[key] ?? strings.en[key] ?? key;
-    return {
+  const value = useMemo(
+    () => ({
       market,
       setMarket: setCode,
-      t,
+      // Full translated copy tree for the active locale. Every page reads its
+      // strings from here; nothing user-visible is hardcoded in the JSX.
+      c: getContent(market.locale),
       isRTL: rtlLocales.includes(market.locale),
-    };
-  }, [market]);
+    }),
+    [market]
+  );
 
   return (
     <MarketContext.Provider value={value}>{children}</MarketContext.Provider>

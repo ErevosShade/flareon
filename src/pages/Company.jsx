@@ -1,52 +1,50 @@
-import {
-  pillars,
-  processSteps,
-  carbonProcessSteps,
-  sustainability,
-  company,
-} from "../data/site";
+import { pillars, processSteps, carbonProcessSteps, sustainability } from "../data/site";
+import { useMarket } from "../market-context";
 import { Section, SectionHead, Button, Eyebrow, Coal } from "../components/ui";
 import PageHero from "../components/PageHero";
 import { Figure } from "../components/Figure";
 import media, { processImages, carbonProcessImages } from "../data/images";
 
 export default function Company() {
+  const { c } = useMarket();
   return (
     <>
       <PageHero
-        eyebrow="Company & eco-infrastructure"
+        eyebrow={c.company.hero.eyebrow}
         title={
           <>
-            The only fully integrated coconut charcoal{" "}
-            <span className="ember-text">manufacturer in India</span>
+            {c.company.hero.titleA}{" "}
+            <span className="ember-text">{c.company.hero.titleB}</span>
           </>
         }
-        sub="From coconut shell collection to activated carbon, briquette manufacturing and BBQ grill assembly — Flareon Briquettes controls 100% of raw material quality."
+        sub={c.company.hero.sub}
         image={media.plant.machine}
       >
         <div className="flex flex-wrap gap-3">
-          <Button to="/export-quote">Book a factory visit</Button>
+          <Button to="/export-quote">{c.cta.factoryVisit}</Button>
           <Button to="/compliance" variant="outline">
-            Audit documents
+            {c.cta.auditDocs}
           </Button>
         </div>
       </PageHero>
 
       <Section tone="raised">
         <SectionHead
-          eyebrow="Manufacturing pillars"
-          title="Three things competitors outsource. We own all three."
+          eyebrow={c.company.pillars.eyebrow}
+          title={c.company.pillars.title}
         />
         <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {pillars.map((p) => (
+          {pillars.map((p, i) => (
             <article key={p.title} className="panel panel-hover p-7">
-              <Eyebrow>{p.tag}</Eyebrow>
+              <Eyebrow>{c.pillars[i].tag}</Eyebrow>
               <h3 className="mt-3 font-display text-xl font-bold text-ash">
-                {p.title}
+                {c.pillars[i].title}
               </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-ash-3">{p.body}</p>
+              <p className="mt-3 text-[15px] leading-relaxed text-ash-3">
+                {c.pillars[i].body}
+              </p>
               <p className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] text-glow">
-                <Coal /> {p.stat}
+                <Coal /> {c.pillars[i].stat}
               </p>
             </article>
           ))}
@@ -64,59 +62,33 @@ export default function Company() {
           </div>
 
           <div>
-            <Eyebrow className="mb-3">One shell, two product lines</Eyebrow>
+            <Eyebrow className="mb-3">{c.company.lines.eyebrow}</Eyebrow>
             <h2 className="text-3xl font-extrabold leading-tight text-ash md:text-4xl">
-              The same carbon feeds the briquette press and the activated carbon
-              plant
+              {c.company.lines.title}
             </h2>
 
             <div className="mt-8 space-y-8">
               <div>
                 <h3 className="font-display text-xl font-bold text-ash">
-                  Charcoal briquettes
+                  {c.company.lines.briquettesTitle}
                 </h3>
                 <p className="mt-3 text-[16px] leading-relaxed text-ash-2">
-                  Coconut shell is one of the few agricultural residues dense
-                  enough to carbonise into a genuinely high fixed-carbon fuel. We
-                  take the coarse fraction of our own shell char, bind it with
-                  food-grade potato starch and press it under high hydraulic
-                  pressure into hexagonal, pillow, cube and honeycomb shapes. The
-                  density is the point: a tighter particle structure burns slower
-                  and hotter than lump wood charcoal, holds cooking temperature
-                  for hours rather than minutes, and leaves a small volume of
-                  clean white ash instead of a grate full of grit. Because there
-                  are no nitrate accelerants anywhere in the recipe, nothing
-                  chemical transfers to the food — which is what makes the
-                  product acceptable to commercial barbecue kitchens, shisha
-                  lounges and supermarket private-label buyers who have to answer
-                  for what they sell.
+                  {c.company.lines.briquettesBody}
                 </p>
               </div>
 
               <div>
                 <h3 className="font-display text-xl font-bold text-ash">
-                  Activated carbon
+                  {c.company.lines.carbonTitle}
                 </h3>
                 <p className="mt-3 text-[16px] leading-relaxed text-ash-2">
-                  The finer fraction goes the other way. Steam activation at high
-                  temperature blows open the internal pore structure of the same
-                  shell char, turning a simple fuel into an adsorbent with an
-                  enormous internal surface area — the material that pulls
-                  chlorine, organics, colour and odour out of water, strips
-                  solvents from air streams, and recovers gold from leach
-                  solutions. Coconut shell is the preferred feedstock for it
-                  worldwide precisely because its pores are predominantly
-                  micropores, which is what makes it effective at low
-                  concentrations where coal-based carbons underperform. Running
-                  both lines off one intake is what lets us hold a grade: we
-                  choose which fraction goes where, instead of accepting whatever
-                  a trader delivers that week.
+                  {c.company.lines.carbonBody}
                 </p>
               </div>
             </div>
 
             <Button to="/products" variant="outline" className="mt-8">
-              See the product range
+              {c.cta.productRange}
             </Button>
           </div>
         </div>
@@ -134,9 +106,9 @@ export default function Company() {
         <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/90 to-ink" />
         <div className="shell relative">
           <SectionHead
-            eyebrow="End-to-end process — briquettes"
-            title="Landfill shell to sealed carton"
-            sub="Four controlled stages. Nothing sub-contracted, nothing chemically accelerated."
+            eyebrow={c.company.process.eyebrow}
+            title={c.company.process.title}
+            sub={c.company.process.sub}
           />
           <ol className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4">
             {processSteps.map((s, i) => (
@@ -152,17 +124,17 @@ export default function Company() {
                 ) : (
                   <div className="grid aspect-4/3 w-full place-items-center border-b border-line bg-ink-3">
                     <span className="font-mono text-[12px] tracking-[0.2em] text-ash-3 uppercase">
-                      Photo coming soon
+                      {c.common.photoComingSoon}
                     </span>
                   </div>
                 )}
                 <div className="p-7">
                   <span className="font-mono text-[13px] text-ember">{s.n}</span>
                   <h3 className="mt-3 text-[17px] font-bold leading-snug text-ash">
-                    {s.title}
+                    {c.processSteps[i].title}
                   </h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-ash-3">
-                    {s.body}
+                    {c.processSteps[i].body}
                   </p>
                 </div>
               </li>
@@ -171,9 +143,9 @@ export default function Company() {
 
           <div className="mt-20">
             <SectionHead
-              eyebrow="End-to-end process — activated carbon"
-              title="Shell char to filtration-grade carbon"
-              sub="The second line off the same raw material: activation, milling and testing before a sack is sealed."
+              eyebrow={c.company.process.carbonEyebrow}
+              title={c.company.process.carbonTitle}
+              sub={c.company.process.carbonSub}
             />
             <ol className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4">
               {carbonProcessSteps.map((s, i) => (
@@ -188,10 +160,10 @@ export default function Company() {
                   <div className="p-7">
                     <span className="font-mono text-[13px] text-ember">{s.n}</span>
                     <h3 className="mt-3 text-[17px] font-bold leading-snug text-ash">
-                      {s.title}
+                      {c.carbonProcessSteps[i].title}
                     </h3>
                     <p className="mt-2 text-[15px] leading-relaxed text-ash-3">
-                      {s.body}
+                      {c.carbonProcessSteps[i].body}
                     </p>
                   </div>
                 </li>
@@ -212,15 +184,17 @@ export default function Company() {
         <div className="shell relative">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <Eyebrow className="mb-3 !text-[#8fc7a3]">Sustainability impact</Eyebrow>
+            <Eyebrow className="mb-3 !text-[#8fc7a3]">
+              {c.company.sustainability.eyebrow}
+            </Eyebrow>
             <h2 className="text-3xl font-extrabold leading-tight text-[#eaf5ee] md:text-4xl">
-              {sustainability.headline}
+              {c.sustainability.headline}
             </h2>
             <p className="mt-5 text-[16px] leading-relaxed text-[#c2dccb]">
-              {sustainability.body}
+              {c.sustainability.body}
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {sustainability.stats.map((s) => (
+              {sustainability.stats.map((s, i) => (
                 <div
                   key={s.value}
                   className="panel-hover rounded-xl border border-[#2d6648]/70 bg-[#0c1f16] p-5"
@@ -229,7 +203,7 @@ export default function Company() {
                     {s.value}
                   </p>
                   <p className="mt-1 text-[13px] leading-snug text-[#8fc7a3]">
-                    {s.label}
+                    {c.sustainability.stats[i]}
                   </p>
                 </div>
               ))}
@@ -246,11 +220,10 @@ export default function Company() {
             />
             <figcaption className="border-t border-[#2d6648]/70 px-6 py-4">
               <p className="font-mono text-[11px] tracking-[0.16em] text-[#8fc7a3] uppercase">
-                Renewable feedstock
+                {c.company.sustainability.figureLabel}
               </p>
               <p className="mt-1 text-[14px] text-[#c2dccb]">
-                Shell waste from working coconut plantations — a by-product
-                stream, never a felled tree.
+                {c.company.sustainability.figureNote}
               </p>
             </figcaption>
           </figure>

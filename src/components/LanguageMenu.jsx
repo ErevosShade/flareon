@@ -5,7 +5,7 @@ import { useMarket } from "../market-context";
 // Navbar language / market switcher. Every market in src/data/markets.js is
 // selectable; a locale missing a string falls back to English.
 export default function LanguageMenu() {
-  const { market, setMarket } = useMarket();
+  const { market, setMarket, c } = useMarket();
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -51,7 +51,7 @@ export default function LanguageMenu() {
           className="absolute end-0 z-50 mt-2 w-64 overflow-hidden rounded-lg border border-line bg-ink-2 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.95)]"
         >
           <p className="eyebrow border-b border-line px-4 py-3">
-            Language / market
+            {c.common.languageMarket}
           </p>
           <ul className="max-h-80 overflow-y-auto py-1">
             {markets.map((m) => {
@@ -90,7 +90,7 @@ export default function LanguageMenu() {
                     {active && <span className="font-mono text-[11px]">✓</span>}
                     {!m.ready && (
                       <span className="rounded-full border border-line px-2 py-0.5 font-mono text-[9px] tracking-widest uppercase">
-                        Soon
+                        {c.common.soon}
                       </span>
                     )}
                   </button>
