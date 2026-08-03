@@ -3,12 +3,14 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SmokeCursor from "./components/SmokeCursor";
+import RouteMeta from "./components/RouteMeta";
 import Home from "./pages/Home";
 import Company from "./pages/Company";
 import Products from "./pages/Products";
 import Gallery from "./pages/Gallery";
 import Compliance from "./pages/Compliance";
 import ExportQuote from "./pages/ExportQuote";
+import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -26,6 +28,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
+      <RouteMeta />
       <SmokeCursor />
       <Header />
       <main className="flex-1">
@@ -36,7 +39,7 @@ export default function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/compliance" element={<Compliance />} />
           <Route path="/export-quote" element={<ExportQuote />} />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

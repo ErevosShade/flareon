@@ -7,9 +7,8 @@ export const company = {
   tagline: "get grillin'",
   address:
     "3/147 Muthandipalayam, K.Ayyampalayam, Palladam, Tamil Nadu, India-641664",
-  // Footer prints this exact line, per the brief.
   footerAddress:
-    "Universal Flareon Industries — 3/147 Muthandipalayam, Palladam, Tirupur, Tamil Nadu, India-641664",
+    "Flareon Briquettes — 3/147 Muthandipalayam, Palladam, Tirupur, Tamil Nadu, India-641664",
   plant: "Palladam Plant, Palladam, Tamil Nadu, India",
   whatsapp: "+91 99441 33441",
   whatsappHref: "https://wa.me/919944133441",
