@@ -150,13 +150,21 @@ export default function Company() {
             <ol className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4">
               {carbonProcessSteps.map((s, i) => (
                 <li key={s.n} className="relative bg-ink-2">
-                  <img
-                    src={carbonProcessImages[i].src}
-                    alt={carbonProcessImages[i].alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-4/3 w-full border-b border-line object-cover"
-                  />
+                  {carbonProcessImages[i] ? (
+                    <img
+                      src={carbonProcessImages[i].src}
+                      alt={carbonProcessImages[i].alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-4/3 w-full border-b border-line object-cover"
+                    />
+                  ) : (
+                    <div className="grid aspect-4/3 w-full place-items-center border-b border-line bg-ink-3">
+                      <span className="font-mono text-[12px] tracking-[0.2em] text-ash-3 uppercase">
+                        {c.common.photoComingSoon}
+                      </span>
+                    </div>
+                  )}
                   <div className="p-7">
                     <span className="font-mono text-[13px] text-ember">{s.n}</span>
                     <h3 className="mt-3 text-[17px] font-bold leading-snug text-ash">

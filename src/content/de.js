@@ -200,9 +200,6 @@ export default {
       eyebrow: "Labordaten",
       title: "Flareon gegen führende Holzkohle",
       sub: "Vergleichende Analysestudie von Bureau Veritas. Jede Zeile unten steht auch im herunterladbaren Bericht.",
-      basis: "Prüfgrundlage: ASTM-konforme Immediatanalyse, Probenahme durch Dritte im Werk Palladam.",
-      note: "Die Proben werden an der Siebstraße rechts entnommen — aus demselben Durchlauf, der die Säcke füllt. Die Zahlen in der Tabelle beschreiben also die Charge, die Sie tatsächlich erhalten, und kein im Labor präpariertes Muster.",
-      figureLabel: "Siebstraße, Palladam",
     },
     downloads: {
       eyebrow: "Downloads",

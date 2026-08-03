@@ -200,9 +200,6 @@ export default {
       eyebrow: "Labdata",
       title: "Flareon versus toonaangevende houtskool",
       sub: "Vergelijkende analysestudie van Bureau Veritas. Elke regel hieronder staat ook in het te downloaden rapport.",
-      basis: "Testbasis: ASTM-conforme immediaatanalyse, monstername door derden in de fabriek in Palladam.",
-      note: "Monsters worden genomen van de zeeflijn rechts — uit dezelfde run die de zakken vult — dus de cijfers in de tabel beschrijven de batch die u werkelijk ontvangt, geen in het lab bereid monster.",
-      figureLabel: "Zeeflijn, Palladam",
     },
     downloads: {
       eyebrow: "Downloads",

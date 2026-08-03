@@ -26,10 +26,10 @@ function Hero() {
         alt={media.fire.hero.alt}
         fetchPriority="high"
         decoding="async"
-        className="absolute inset-0 size-full object-cover object-center opacity-30"
+        className="absolute inset-0 size-full object-cover object-center opacity-50"
       />
-      <div className="absolute inset-0 bg-ink/45" />
-      <div className="absolute inset-0 bg-linear-to-b from-ink/95 via-ink/85 to-ink" />
+      <div className="absolute inset-0 bg-ink/30" />
+      <div className="absolute inset-0 bg-linear-to-b from-ink/85 via-ink/70 to-ink" />
       <div className="pointer-events-none absolute inset-x-0 -top-40 h-[38rem] bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,90,31,0.16),transparent_70%)]" />
       <div className="grain absolute inset-0" />
 
@@ -224,9 +224,10 @@ function Grades() {
   );
 }
 
+// Only the shipping line gets a photo. The carbon card shows a plate instead,
+// so nothing implies a product we cannot ship yet.
 const productCardImage = {
   briquettes: media.fire.hexagon,
-  "activated-carbon": media.material.carbonSack,
 };
 
 function ProductPeek() {
@@ -257,16 +258,27 @@ function ProductPeek() {
                 key={p.id}
                 className="panel panel-hover flex flex-col overflow-hidden"
               >
+                {/* 16:10 gives the briquette shot enough height that the
+                    flames and the coal bed both survive the crop. */}
                 <div className="relative">
-                  <img
-                    src={productCardImage[p.id].src}
-                    alt={productCardImage[p.id].alt}
-                    loading="lazy"
-                    decoding="async"
-                    className={`aspect-21/9 w-full border-b border-line object-cover ${
-                      p.available ? "" : "object-contain bg-ink-3 p-6 opacity-80"
-                    }`}
-                  />
+                  {productCardImage[p.id] ? (
+                    <img
+                      src={productCardImage[p.id].src}
+                      alt={productCardImage[p.id].alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-16/10 w-full border-b border-line object-cover"
+                    />
+                  ) : (
+                    <div className="grid aspect-16/10 w-full place-items-center border-b border-line bg-ink-3">
+                      <p className="font-display text-3xl font-black tracking-tight text-ash md:text-4xl">
+                        {c.products.carbon.comingSoonA}{" "}
+                        <span className="ember-text">
+                          {c.products.carbon.comingSoonB}
+                        </span>
+                      </p>
+                    </div>
+                  )}
                   {!p.available && (
                     <span className="absolute right-4 top-4 rounded-full border border-ember/40 bg-ink/85 px-3 py-1 font-mono text-[11px] tracking-widest text-glow uppercase backdrop-blur">
                       {c.common.comingSoon}
@@ -305,21 +317,19 @@ function ProductPeek() {
   );
 }
 
-// Runs edge-to-edge on desktop — the table needs the width more than the
-// section needs a gutter. The BV standard column is numeric, so it is read
-// from site.js rather than the translated tree.
+// Heading and table share the one centred `shell` column, so this band lines up
+// with the sections above and below it. The BV standard column is numeric, so it
+// is read from site.js rather than the translated tree.
 function Benchmark() {
   const { c } = useMarket();
   return (
-    <section className="bg-ink-2 grain py-20 md:py-28">
-      <div className="shell">
-        <SectionHead
-          eyebrow={c.home.benchmark.eyebrow}
-          title={c.home.benchmark.title}
-          sub={c.home.benchmark.sub}
-        />
-      </div>
-      <div className="mt-10 overflow-x-auto px-5 md:px-8">
+    <Section tone="raised">
+      <SectionHead
+        eyebrow={c.home.benchmark.eyebrow}
+        title={c.home.benchmark.title}
+        sub={c.home.benchmark.sub}
+      />
+      <div className="mt-10 overflow-x-auto">
         <table className="w-full min-w-[36rem] border-collapse text-left text-base">
           <thead>
             <tr>
@@ -351,7 +361,7 @@ function Benchmark() {
           </tbody>
         </table>
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -367,9 +377,9 @@ function TrustWall() {
         aria-hidden
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 size-full object-cover opacity-20"
+        className="absolute inset-0 size-full object-cover opacity-35"
       />
-      <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/90 to-ink" />
+      <div className="absolute inset-0 bg-linear-to-b from-ink/95 via-ink/85 to-ink" />
 
       <div className="shell relative">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_auto] lg:items-end">

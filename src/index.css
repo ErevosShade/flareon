@@ -167,11 +167,11 @@
 /* Cursor smoke puff */
 @keyframes smokeRise {
   0% {
-    opacity: 0.75;
+    opacity: 0.45;
     transform: translate(-50%, -50%) scale(0.5);
   }
   60% {
-    opacity: 0.4;
+    opacity: 0.2;
   }
   100% {
     opacity: 0;
@@ -185,8 +185,8 @@
   width: 34px;
   height: 34px;
   border-radius: 9999px;
-  filter: blur(9px);
-  animation: smokeRise 1.9s ease-out forwards;
+  filter: blur(11px);
+  animation: smokeRise 1.6s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

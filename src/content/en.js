@@ -210,9 +210,6 @@ export default {
       eyebrow: "Lab data",
       title: "Flareon vs leading wood charcoal",
       sub: "Bureau Veritas comparative analysis study. Every row below appears in the downloadable report.",
-      basis: "Test basis: ASTM-aligned proximate analysis, third-party sampled at the Palladam plant.",
-      note: "Samples are drawn off the screening line on the right — the same run that fills the sacks — so the numbers in the table describe the batch you actually receive, not a lab-prepared specimen.",
-      figureLabel: "Screening line, Palladam",
     },
     downloads: {
       eyebrow: "Downloads",

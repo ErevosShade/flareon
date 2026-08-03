@@ -193,19 +193,21 @@ export const gallery = [
 
 // One photo per manufacturing stage on the Company page. `null` means we have
 // no representative shot yet — the card shows a "coming soon" plate instead.
+// The briquette line is fully photographed.
 export const processImages = [
-  null,
+  media.material.rawSacks,
   media.material.powder,
   media.plant.machineTeam,
-  null,
+  media.plant.dryingTray,
 ];
 
-// One photo per activated-carbon stage on the Company page.
+// One photo per activated-carbon stage. Stages 01 and 04 are the two we have no
+// shot of on this line yet, so they render the plate.
 export const carbonProcessImages = [
-  media.material.rawSacks,
+  null,
   media.plant.conveyorCrates,
   media.material.powder,
-  media.material.carbonSack,
+  null,
 ];
 
 export default media;

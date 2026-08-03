@@ -18,27 +18,27 @@ export default function SmokeCursor() {
     let last = 0;
     const onMove = (e) => {
       const now = performance.now();
-      if (now - last < 22) return; // dense enough to read as a plume
+      if (now - last < 34) return; // a light trail, not a plume
       last = now;
 
       const green =
         e.target instanceof Element && e.target.closest('[data-smoke="green"]');
 
-      // Three puffs per emission, scattered and staggered, so the trail has
-      // volume instead of reading as a single dot chasing the cursor.
-      for (let i = 0; i < 3; i++) {
+      // Two puffs per emission, scattered and staggered, so the trail keeps
+      // some volume while staying faint enough to read through.
+      for (let i = 0; i < 2; i++) {
         const puff = document.createElement("span");
         puff.className = "smoke-puff";
         puff.style.left = `${e.clientX + (Math.random() - 0.5) * 26}px`;
         puff.style.top = `${e.clientY + (Math.random() - 0.5) * 26}px`;
-        const scale = 0.8 + Math.random() * 1.1;
+        const scale = 0.7 + Math.random() * 0.85;
         puff.style.width = `${34 * scale}px`;
         puff.style.height = `${34 * scale}px`;
-        puff.style.animationDelay = `${i * 55}ms`;
-        puff.style.setProperty("--drift", `${(Math.random() - 0.5) * 70}px`);
+        puff.style.animationDelay = `${i * 70}ms`;
+        puff.style.setProperty("--drift", `${(Math.random() - 0.5) * 56}px`);
         puff.style.background = green
-          ? "radial-gradient(circle, rgba(122,196,140,0.72), rgba(122,196,140,0) 70%)"
-          : "radial-gradient(circle, rgba(214,208,196,0.62), rgba(214,208,196,0) 70%)";
+          ? "radial-gradient(circle, rgba(122,196,140,0.4), rgba(122,196,140,0) 70%)"
+          : "radial-gradient(circle, rgba(214,208,196,0.34), rgba(214,208,196,0) 70%)";
         document.body.appendChild(puff);
         puff.addEventListener("animationend", () => puff.remove());
       }

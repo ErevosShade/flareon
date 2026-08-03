@@ -2,7 +2,6 @@ import { benchmark, certificates } from "../data/site";
 import { useMarket } from "../market-context";
 import { Section, SectionHead, Button, Eyebrow } from "../components/ui";
 import PageHero from "../components/PageHero";
-import { Figure } from "../components/Figure";
 import media from "../data/images";
 
 export default function Compliance() {
@@ -59,21 +58,6 @@ export default function Compliance() {
               ))}
             </tbody>
           </table>
-        </div>
-        <div className="mt-8 grid gap-8 md:grid-cols-[1.6fr_1fr] md:items-center">
-          <div>
-            <p className="font-mono text-[11px] text-ash-3">
-              {c.compliance.lab.basis}
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-ash-2">
-              {c.compliance.lab.note}
-            </p>
-          </div>
-          <Figure
-            image={media.plant.conveyorNight}
-            ratio="tall"
-            label={c.compliance.lab.figureLabel}
-          />
         </div>
       </Section>
 

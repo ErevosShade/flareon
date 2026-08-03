@@ -201,9 +201,6 @@ export default {
       eyebrow: "实验室数据",
       title: "Flareon 对比主流木炭",
       sub: "Bureau Veritas 对比分析研究。下方每一行都出现在可下载的报告中。",
-      basis: "检测依据：符合 ASTM 的工业分析，由第三方在帕拉达姆工厂现场取样。",
-      note: "样品取自右侧的筛分线——与装袋的是同一批次，因此表中的数字描述的是您实际收到的批次，而不是实验室特制的样品。",
-      figureLabel: "筛分线，帕拉达姆",
     },
     downloads: {
       eyebrow: "下载",
